@@ -1,0 +1,3163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TECH AVANCE NR - CV</title>
+
+  <!-- FAVICON -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%234a4a4a'/%3E%3Crect x='10' y='10' width='80' height='25' fill='%23e5e7eb'/%3E%3Crect x='10' y='42' width='80' height='8' fill='%23d1d5db'/%3E%3Crect x='10' y='55' width='80' height='8' fill='%23d1d5db'/%3E%3Crect x='10' y='68' width='50' height='8' fill='%23d1d5db'/%3E%3C/svg%3E" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===== VARIABLES GLOBALES ===== */
+    :root {
+      --bg-system: #4a4a4a;
+      --bg-body: #d1d5db;
+      --bg-card: #ffffff;
+      --text-dark: #1a1a1a;
+      --text-muted: #6b7280;
+      --border-color: #d1d5db;
+      --accent: #9ca3af;
+      --danger: #ef4444;
+
+      --cv-primary: #374151;
+      --cv-accent: #6b7280;
+      --cv-text: #1a1a1a;
+      --cv-bg-canvas: #ffffff;
+      --cv-bg-sidebar: #e5e7eb;
+      --cv-bg-header: #4a4a4a;
+      --cv-font: 'Inter', sans-serif;
+      --photo-shape: 50%;
+
+      --page-margin-top: 20px;
+      --page-margin-bottom: 20px;
+      --page-margin-left: 20px;
+      --page-margin-right: 20px;
+
+      --cv-title-size: 18pt;
+      --cv-subtitle-size: 10pt;
+      --cv-heading-size: 10pt;
+      --cv-text-size: 8.5pt;
+    }
+
+    /* ===== RESET Y BASE ===== */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-body);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    /* ===== HEADER CRM ===== */
+    .crm-header {
+      background: var(--bg-system);
+      color: #fff;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid var(--accent);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .crm-brand {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .crm-brand span {
+      color: #e5e7eb;
+    }
+    .crm-datetime {
+      display: flex;
+      gap: 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #d1d5db;
+    }
+    .crm-datetime div {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* ===== LAYOUT PRINCIPAL ===== */
+    .builder-layout {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 20px;
+      max-width: 1850px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+
+    /* ===== PANEL LATERAL ===== */
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 18px;
+      max-height: 88vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .panel-title {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .panel-title:first-child {
+      margin-top: 0;
+    }
+
+    /* ===== BLOQUES ARRASTRABLES ===== */
+    .draggable-block {
+      background: var(--bg-body);
+      border: 1px solid var(--border-color);
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-dark);
+    }
+    .draggable-block:hover {
+      background: var(--bg-system);
+      color: #ffffff;
+      border-color: var(--bg-system);
+    }
+
+    /* ===== CONTROLES ===== */
+    .control-group {
+      margin-bottom: 10px;
+    }
+    .control-group label {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+    .control-group input[type="color"],
+    .control-group select,
+    .control-group input[type="file"],
+    .control-group input[type="number"],
+    .control-group input[type="text"] {
+      width: 100%;
+      height: 36px;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--text-dark);
+      padding: 4px 8px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .grid-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .grid-inputs-3 {
+      display: grid;
+      grid-template-columns: 1fr 0.8fr;
+      gap: 8px;
+    }
+    .btn-url-load {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      height: 36px;
+      white-space: nowrap;
+    }
+    .btn-url-load:hover {
+      background: #6b7280;
+    }
+
+    /* ===== CONTROLES DE COLUMNAS ===== */
+    .col-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .col-control-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-body);
+      padding: 6px 10px;
+      border-radius: 6px;
+    }
+    .col-control-item label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      min-width: 50px;
+    }
+    .col-control-item input[type="range"] {
+      flex: 1;
+      height: 4px;
+    }
+    .col-control-item input[type="number"] {
+      width: 50px;
+      height: 28px;
+      text-align: center;
+      font-size: 0.75rem;
+    }
+    .col-control-item .btn-del-col {
+      background: var(--danger);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 0.7rem;
+      cursor: pointer;
+    }
+    .col-control-item .btn-del-col:hover {
+      background: #dc2626;
+    }
+    .btn-add-col {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 4px;
+    }
+    .btn-add-col:hover {
+      background: #6b7280;
+    }
+    .btn-add-col:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* ===== BOTONES ===== */
+    .btn-action {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+    .btn-auto {
+      background: #9ca3af;
+      color: #ffffff;
+    }
+    .btn-auto:hover {
+      background: #6b7280;
+    }
+    .btn-print {
+      background: #374151;
+      color: #ffffff;
+    }
+    .btn-print:hover {
+      background: #1a1a1a;
+    }
+    .btn-reset {
+      background: #fee2e2;
+      color: var(--danger);
+      border: 1px solid #fca5a5;
+    }
+    .btn-reset:hover {
+      background: var(--danger);
+      color: #ffffff;
+    }
+    .btn-history {
+      background: #2563eb;
+      color: #ffffff;
+    }
+    .btn-history:hover {
+      background: #1d4ed8;
+    }
+    .btn-save-history {
+      background: #16a34a;
+      color: #ffffff;
+    }
+    .btn-save-history:hover {
+      background: #15803d;
+    }
+    .btn-update-history {
+      background: #ea580c;
+      color: #ffffff;
+    }
+    .btn-update-history:hover {
+      background: #c2410c;
+    }
+
+    /* ===== LIENZO DEL CV ===== */
+    .canvas-container {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      justify-content: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      max-height: 88vh;
+      overflow: auto;
+    }
+
+    .cv-canvas {
+      width: 215.9mm;
+      height: 279.4mm;
+      background: var(--cv-bg-canvas);
+      color: var(--cv-text);
+      font-family: var(--cv-font);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+      transition: background 0.3s, opacity 0.25s ease;
+    }
+    .cv-canvas.fade-out {
+      opacity: 0;
+    }
+    .cv-canvas.fade-in {
+      opacity: 1;
+    }
+
+    /* ===== CAPA DE COLUMNAS ===== */
+    .columns-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      gap: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .cv-column {
+      border: 1px dashed #d1d5db;
+      height: 100%;
+      transition: all 0.3s;
+    }
+
+    /* ===== ESTILOS DE PLANTILLAS ===== */
+    .cv-canvas.tpl-executive .cv-column:first-child {
+      background: var(--cv-bg-sidebar);
+    }
+    .cv-canvas.tpl-tech-dark .cv-column:first-child {
+      background: var(--cv-bg-sidebar);
+    }
+    .cv-canvas.tpl-jose .cv-item.is-header-block {
+      background: var(--cv-bg-header) !important;
+      color: #ffffff !important;
+      border-radius: 0;
+      padding: 18px 25px !important;
+    }
+
+    .cv-canvas.tpl-exec-right .cv-column:last-child {
+      background: var(--cv-bg-sidebar);
+    }
+    .cv-canvas.tpl-exec-right-dark .cv-column:last-child {
+      background: var(--cv-bg-sidebar);
+    }
+    .cv-canvas.tpl-exec-right-clean .cv-column:last-child {
+      background: var(--cv-bg-sidebar);
+    }
+    .cv-canvas.tpl-exec-right-classic .cv-column:last-child {
+      background: var(--cv-bg-sidebar);
+    }
+    .cv-canvas.tpl-exec-right-modern .cv-column:last-child {
+      background: var(--cv-bg-sidebar);
+    }
+
+    .cv-canvas.tpl-harvard .cv-item.is-header-block {
+      background: #2c3e50 !important;
+      color: #ffffff !important;
+      border-radius: 0;
+      padding: 20px 30px !important;
+    }
+    .cv-canvas.tpl-harvard .cv-title-main {
+      color: #ffffff !important;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 1px;
+    }
+    .cv-canvas.tpl-harvard .cv-subtitle {
+      color: #bdc3c7 !important;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+    .cv-canvas.tpl-corporate .cv-item.is-header-block {
+      background: #1a1a1a !important;
+      color: #ffffff !important;
+      border-radius: 0;
+      padding: 18px 25px !important;
+    }
+    .cv-canvas.tpl-board .cv-item.is-header-block {
+      background: #2d3748 !important;
+      color: #f7fafc !important;
+      border-radius: 0;
+      padding: 22px 30px !important;
+      border-bottom: 4px solid #e2e8f0;
+    }
+    .cv-canvas.tpl-minimal .cv-item.is-header-block {
+      background: #f8f9fa !important;
+      color: #1a1a1a !important;
+      border-radius: 0;
+      padding: 18px 25px !important;
+      border-bottom: 2px solid #dee2e6;
+    }
+    .cv-canvas.tpl-legal .cv-item.is-header-block {
+      background: #3d3d3d !important;
+      color: #ffffff !important;
+      border-radius: 0;
+      padding: 20px 30px !important;
+      border-bottom: 3px solid #8b7355;
+    }
+
+    /* ===== ÍTEMS DEL CV ===== */
+    .cv-item {
+      position: absolute;
+      border: 1px dashed transparent;
+      padding: 8px;
+      border-radius: 6px;
+      background: transparent;
+      min-width: 60px;
+      min-height: 45px;
+      z-index: 10;
+      cursor: move;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+    .cv-item:hover {
+      border-color: #9ca3af;
+    }
+    .cv-item.dragging {
+      opacity: 0.5;
+      border-color: var(--accent);
+    }
+
+    .cv-item.is-background {
+      z-index: 0 !important;
+      opacity: 0.6;
+    }
+
+    /* ===== ENCABEZADO CON FOTO ===== */
+    .cv-header-container {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      width: 100%;
+    }
+    .cv-header-container.align-left {
+      flex-direction: row;
+      justify-content: flex-start;
+    }
+    .cv-header-container.align-right {
+      flex-direction: row-reverse;
+      justify-content: flex-start;
+    }
+    .cv-header-container.align-top {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .cv-header-container.align-top .header-text {
+      text-align: center;
+    }
+
+    .cv-photo-container {
+      width: 90px;
+      height: 90px;
+      overflow: hidden;
+      border: 3px solid #d1d5db;
+      flex-shrink: 0;
+      background: #e5e7eb;
+      border-radius: var(--photo-shape, 50%);
+      transition: border-radius 0.3s ease;
+    }
+    .cv-photo-container.shape-circle {
+      border-radius: 50%;
+    }
+    .cv-photo-container.shape-square {
+      border-radius: 8px;
+    }
+    .cv-photo-container.shape-hexagon {
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      border-radius: 0;
+    }
+    .cv-photo-container.shape-star {
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      border-radius: 0;
+    }
+    .cv-photo-container.shape-heart {
+      clip-path: path('M50,30 A20,20,0,0,1,90,30 A20,20,0,0,1,50,80 A20,20,0,0,1,10,30 A20,20,0,0,1,50,30');
+      border-radius: 0;
+    }
+    .cv-photo-container.shape-diamond {
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+      border-radius: 0;
+    }
+    .cv-photo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .header-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .cv-title-main {
+      font-size: var(--cv-title-size, 18pt);
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+      color: var(--cv-primary);
+      line-height: 1.1;
+    }
+    .cv-subtitle {
+      font-size: var(--cv-subtitle-size, 10pt);
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--cv-accent);
+    }
+    .tpl-jose .cv-title-main {
+      color: #ffffff !important;
+      font-size: 22pt;
+      font-weight: 400;
+      text-transform: none;
+    }
+    .tpl-jose .cv-subtitle {
+      color: #d1d5db !important;
+      font-size: 11pt;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .tpl-jose .cv-photo-container {
+      width: 105px;
+      height: 105px;
+      border: 3px solid #ffffff;
+    }
+
+    .cv-section-heading {
+      font-size: var(--cv-heading-size, 10pt);
+      font-weight: 700;
+      text-transform: uppercase;
+      border-bottom: 2px solid #1a1a1a;
+      padding-bottom: 2px;
+      margin: 3px 0 6px 0;
+      color: #1a1a1a;
+      letter-spacing: 0.5px;
+    }
+    .cv-text {
+      font-size: var(--cv-text-size, 8.5pt);
+      line-height: 1.35;
+      color: var(--cv-text);
+    }
+
+    /* ===== MANIPULADORES DE REDIMENSIÓN ===== */
+    .resize-handle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #9ca3af;
+      border: 1px solid #ffffff;
+      border-radius: 50%;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s;
+      z-index: 101;
+    }
+    .cv-item:hover .resize-handle {
+      opacity: 1;
+      visibility: visible;
+    }
+    .resize-handle.e {
+      top: 50%;
+      right: -4px;
+      transform: translateY(-50%);
+      cursor: e-resize;
+    }
+    .resize-handle.w {
+      top: 50%;
+      left: -4px;
+      transform: translateY(-50%);
+      cursor: w-resize;
+    }
+    .resize-handle.s {
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: s-resize;
+    }
+    .resize-handle.n {
+      top: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: n-resize;
+    }
+    .resize-handle.se {
+      bottom: -4px;
+      right: -4px;
+      cursor: se-resize;
+    }
+    .resize-handle.sw {
+      bottom: -4px;
+      left: -4px;
+      cursor: sw-resize;
+    }
+
+    /* ===== HERRAMIENTAS FLOTANTES ===== */
+    .item-tools {
+      position: absolute;
+      top: -42px;
+      left: 0;
+      background: var(--bg-system);
+      border-radius: 6px;
+      padding: 4px 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
+      flex-wrap: wrap;
+      max-width: 320px;
+    }
+    .cv-item:hover .item-tools {
+      opacity: 1;
+      visibility: visible;
+    }
+    .tool-label {
+      color: #d1d5db;
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .tool-btn {
+      background: none;
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 5px;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+    .tool-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .tool-btn-add-item {
+      background: #22c55e;
+      color: #fff;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    .tool-btn-add-item:hover {
+      background: #16a34a;
+    }
+    .tool-input-color {
+      width: 20px;
+      height: 20px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      background: none;
+      padding: 0;
+    }
+    .tool-input-color::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+    .tool-input-color::-webkit-color-swatch {
+      border: 1px solid #ffffff;
+      border-radius: 50%;
+    }
+
+    /* ===== EDICIÓN INLINE ===== */
+    [contenteditable="true"] {
+      outline: none;
+      cursor: text;
+    }
+    [contenteditable="true"]:focus {
+      background: rgba(0, 0, 0, 0.03);
+      border-radius: 3px;
+    }
+
+    /* ===== MODAL HISTORIAL MEJORADO ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-content {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 960px;
+      width: 94%;
+      max-height: 88vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 12px;
+    }
+    .modal-header h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #1a1a1a;
+    }
+    .modal-close {
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #6b7280;
+      transition: color 0.2s;
+      background: none;
+      border: none;
+      padding: 0 8px;
+    }
+    .modal-close:hover {
+      color: #1a1a1a;
+    }
+
+    .history-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      flex: 1;
+      min-height: 300px;
+    }
+    @media (max-width: 700px) {
+      .history-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .history-list-container {
+      overflow-y: auto;
+      max-height: 65vh;
+      padding-right: 6px;
+    }
+    .history-list-container::-webkit-scrollbar {
+      width: 4px;
+    }
+    .history-list-container::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 4px;
+    }
+
+    .history-card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      transition: all 0.15s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .history-card:hover {
+      border-color: #9ca3af;
+      background: #f3f4f6;
+    }
+    .history-card.active {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+    .history-card-info {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 130px;
+    }
+    .history-card-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #1a1a1a;
+    }
+    .history-card-date {
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+    .history-card-badge {
+      font-size: 0.6rem;
+      background: #2563eb;
+      color: #fff;
+      padding: 1px 10px;
+      border-radius: 12px;
+      display: inline-block;
+      margin-left: 8px;
+    }
+    .history-card-actions {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .history-card-actions button {
+      padding: 4px 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .btn-h-preview {
+      background: #8b5cf6;
+      color: #fff;
+    }
+    .btn-h-preview:hover {
+      background: #7c3aed;
+    }
+    .btn-h-edit {
+      background: #2563eb;
+      color: #fff;
+    }
+    .btn-h-edit:hover {
+      background: #1d4ed8;
+    }
+    .btn-h-load {
+      background: #6b7280;
+      color: #fff;
+    }
+    .btn-h-load:hover {
+      background: #4b5563;
+    }
+    .btn-h-rename {
+      background: #f59e0b;
+      color: #fff;
+    }
+    .btn-h-rename:hover {
+      background: #d97706;
+    }
+    .btn-h-delete {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+    .btn-h-delete:hover {
+      background: #fecaca;
+    }
+    .btn-h-pdf {
+      background: #16a34a;
+      color: #fff;
+    }
+    .btn-h-pdf:hover {
+      background: #15803d;
+    }
+
+    .preview-panel {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px;
+      overflow-y: auto;
+      max-height: 65vh;
+      display: none;
+      flex-direction: column;
+    }
+    .preview-panel.active {
+      display: flex;
+    }
+    .preview-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 8px;
+    }
+    .preview-panel-header h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+    .preview-panel-header .preview-close-btn {
+      background: none;
+      border: none;
+      color: #6b7280;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    .preview-panel-header .preview-close-btn:hover {
+      color: #1a1a1a;
+    }
+
+    .preview-cv {
+      font-family: var(--cv-font, 'Inter', sans-serif);
+      color: var(--cv-text, #1a1a1a);
+      background: var(--cv-bg-canvas, #ffffff);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid #e5e7eb;
+    }
+    .preview-cv .preview-header {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .preview-cv .preview-photo {
+      width: 70px;
+      height: 70px;
+      border-radius: var(--photo-shape, 50%);
+      background: #e5e7eb;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 2px solid #d1d5db;
+    }
+    .preview-cv .preview-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .preview-cv .preview-name {
+      font-size: 16pt;
+      font-weight: 800;
+      color: var(--cv-primary, #374151);
+      line-height: 1.2;
+    }
+    .preview-cv .preview-title {
+      font-size: 10pt;
+      font-weight: 600;
+      color: var(--cv-accent, #6b7280);
+    }
+    .preview-cv .preview-section {
+      margin-top: 8px;
+    }
+    .preview-cv .preview-section-heading {
+      font-size: 9pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-bottom: 2px solid #1a1a1a;
+      padding-bottom: 2px;
+      margin-bottom: 4px;
+      color: #1a1a1a;
+      letter-spacing: 0.5px;
+    }
+    .preview-cv .preview-section-text {
+      font-size: 8.5pt;
+      line-height: 1.4;
+      color: var(--cv-text, #1a1a1a);
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .preview-empty {
+      color: #6b7280;
+      text-align: center;
+      padding: 40px 0;
+      font-size: 0.9rem;
+    }
+
+    /* ===== IMPRESIÓN ===== */
+    @media print {
+      @page {
+        size: letter portrait;
+        margin: 0;
+      }
+      html,
+      body {
+        width: 215.9mm;
+        height: 279.4mm;
+        background: #ffffff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .panel,
+      .crm-header,
+      .item-tools,
+      .resize-handle,
+      .modal-overlay {
+        display: none !important;
+      }
+      .builder-layout {
+        display: block;
+        padding: 0;
+        margin: 0;
+      }
+      .canvas-container {
+        padding: 0;
+        border: none;
+        background: transparent;
+        max-height: none;
+        overflow: visible;
+      }
+      .cv-canvas {
+        box-shadow: none;
+        width: 215.9mm;
+        height: 279.4mm;
+        margin: 0;
+        padding: 0;
+        page-break-after: avoid;
+        page-break-inside: avoid;
+        opacity: 1 !important;
+      }
+      .columns-layer,
+      .cv-column,
+      .cv-item {
+        border: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== HEADER CRM ===== -->
+  <header class="crm-header">
+    <div class="crm-brand">🖥️ <span>TECH AVANCE NR</span> - CV</div>
+    <div class="crm-datetime">
+      <div>📅 <span id="crm-date">--/--/----</span></div>
+      <div>⏰ <span id="crm-clock">00:00:00</span></div>
+    </div>
+  </header>
+
+  <!-- ===== LAYOUT PRINCIPAL ===== -->
+  <div class="builder-layout">
+
+    <!-- ===== PANEL DE CONTROL ===== -->
+    <aside class="panel" id="controlPanel">
+
+      <!-- SELECCIÓN DE PLANTILLA -->
+      <div class="panel-title">Select Template</div>
+      <div class="control-group">
+        <select id="template-select">
+          <option value="jose">Elegant Dark Header</option>
+          <option value="eulalia">Executive Classic</option>
+          <option value="tech_dark">Modern Tech Dark</option>
+          <option value="swiss">Swiss Clean</option>
+          <option value="creativo">Hero Banner Professional</option>
+          <option value="minimalista">Classic One-Column</option>
+          <option value="completo">Three-Column Pro</option>
+          <option value="blanco">Blank Canvas</option>
+          <option value="harvard">Harvard Executive</option>
+          <option value="corporate">Corporate Clean</option>
+          <option value="board">Board Ready</option>
+          <option value="minimal">Minimal Professional</option>
+          <option value="legal">Legal Classic</option>
+          <option value="exec_right">Executive Right Sidebar</option>
+          <option value="exec_right_dark">Executive Right Dark</option>
+          <option value="exec_right_clean">Executive Right Clean</option>
+          <option value="exec_right_classic">Executive Right Classic</option>
+          <option value="exec_right_modern">Executive Right Modern</option>
+        </select>
+      </div>
+
+      <!-- IDIOMA -->
+      <div class="panel-title">🌐 Language / Idioma</div>
+      <div class="control-group">
+        <select id="lang-select">
+          <option value="es">🇪🇸 Español</option>
+          <option value="en">🇬🇧 English</option>
+          <option value="fr">🇫🇷 Français</option>
+          <option value="it">🇮🇹 Italiano</option>
+        </select>
+      </div>
+
+      <!-- ESTRUCTURA DE GUÍAS -->
+      <div class="panel-title">📐 Column Guides</div>
+      <div class="control-group" id="col-controls-container">
+        <div class="col-controls" id="col-controls"></div>
+        <button class="btn-add-col" id="btnAddCol">➕ Add column</button>
+      </div>
+
+      <!-- BOTÓN AUTO-AJUSTE -->
+      <button class="btn-action btn-auto" id="btnAutoFit">⚡ Auto-Fit All</button>
+
+      <!-- FORMA DE LA FOTO -->
+      <div class="panel-title">🖼️ Photo Shape</div>
+      <div class="control-group">
+        <select id="photo-shape">
+          <option value="circle">⚪ Circle</option>
+          <option value="square">⬛ Square</option>
+          <option value="hexagon">⬡ Hexagon</option>
+          <option value="star">⭐ Star</option>
+          <option value="heart">❤️ Heart</option>
+          <option value="diamond">◆ Diamond</option>
+        </select>
+      </div>
+
+      <!-- CARGA DE FOTO -->
+      <div class="panel-title">📷 Upload Photo</div>
+      <div class="control-group">
+        <label>From File</label>
+        <input type="file" id="photo-input" accept="image/*" />
+      </div>
+      <div class="control-group grid-inputs-3">
+        <div style="grid-column: span 1;">
+          <label>From URL</label>
+          <input type="text" id="photo-url-input" placeholder="https://ejemplo.com/foto.jpg" />
+        </div>
+        <div style="display:flex; align-items:flex-end;">
+          <button class="btn-url-load" id="btnLoadPhotoURL">Cargar desde URL</button>
+        </div>
+      </div>
+
+      <!-- MÁRGENES -->
+      <div class="panel-title">📐 Page Margins</div>
+      <div class="control-group grid-inputs">
+        <div><label>Top (px)</label><input type="number" id="page-margin-top" value="20" min="0" max="60" /></div>
+        <div><label>Bottom (px)</label><input type="number" id="page-margin-bottom" value="20" min="0" max="60" /></div>
+        <div><label>Left (px)</label><input type="number" id="page-margin-left" value="20" min="0" max="60" /></div>
+        <div><label>Right (px)</label><input type="number" id="page-margin-right" value="20" min="0" max="60" /></div>
+      </div>
+
+      <!-- TAMAÑO DE FUENTE -->
+      <div class="panel-title">🔤 Font Size</div>
+      <div class="control-group grid-inputs">
+        <div><label>Title (pt)</label><input type="number" id="font-title-size" value="18" min="8" max="36" step="0.5" />
+        </div>
+        <div><label>Subtitle (pt)</label><input type="number" id="font-subtitle-size" value="10" min="6" max="24"
+            step="0.5" /></div>
+        <div><label>Headings (pt)</label><input type="number" id="font-heading-size" value="10" min="6" max="24"
+            step="0.5" /></div>
+        <div><label>Text (pt)</label><input type="number" id="font-text-size" value="8.5" min="6" max="18" step="0.5" />
+        </div>
+      </div>
+
+      <!-- COLORES Y FUENTE -->
+      <div class="panel-title">🎨 Colors & Font</div>
+      <div class="control-group"><label>Header Background</label><input type="color" id="color-bg-header" value="#4a4a4a" />
+      </div>
+      <div class="control-group"><label>Canvas Background</label><input type="color" id="color-bg-canvas" value="#ffffff" />
+      </div>
+      <div class="control-group"><label>Sidebar Background</label><input type="color" id="color-bg-sidebar"
+          value="#e5e7eb" /></div>
+      <div class="control-group"><label>Primary Color</label><input type="color" id="color-primary" value="#374151" /></div>
+      <div class="control-group"><label>Accent Color</label><input type="color" id="color-accent" value="#6b7280" /></div>
+      <div class="control-group"><label>Text Color</label><input type="color" id="color-text-global" value="#1a1a1a" />
+      </div>
+      <div class="control-group">
+        <label>Font Family</label>
+        <select id="font-select">
+          <option value="'Inter', sans-serif">Inter (Modern)</option>
+          <option value="'Roboto', sans-serif">Roboto (Clean)</option>
+          <option value="'Playfair Display', serif">Playfair (Elegant)</option>
+          <option value="Arial, sans-serif">Arial</option>
+          <option value="Georgia, serif">Georgia</option>
+          <option value="Verdana, sans-serif">Verdana</option>
+        </select>
+      </div>
+
+      <!-- MÓDULOS -->
+      <div class="panel-title">📋 Add Modules</div>
+      <div class="draggable-block" data-block="encabezado">👤 Name & Title <span>+</span></div>
+      <div class="draggable-block" data-block="datos_personales">📋 Personal Details <span>+</span></div>
+      <div class="draggable-block" data-block="contacto">📞 Contact & Social <span>+</span></div>
+      <div class="draggable-block" data-block="idiomas">🌐 Languages <span>+</span></div>
+      <div class="draggable-block" data-block="perfil">📝 Profile / About <span>+</span></div>
+      <div class="draggable-block" data-block="experiencia">💼 Work Experience <span>+</span></div>
+      <div class="draggable-block" data-block="educacion">🎓 Education <span>+</span></div>
+      <div class="draggable-block" data-block="habilidades">⚡ Skills <span>+</span></div>
+      <div class="draggable-block" data-block="ref_laboral">🏢 Professional References <span>+</span></div>
+      <div class="draggable-block" data-block="ref_personal">👥 Personal References <span>+</span></div>
+
+      <!-- BOTONES -->
+      <button class="btn-action btn-print" id="btnPrint">🖨️ Print / PDF</button>
+      <button class="btn-action btn-save-history" id="btnSaveHistory">💾 Guardar en Historial</button>
+      <button class="btn-action btn-update-history" id="btnUpdateHistory" style="display:none;">🔄 Actualizar este CV</button>
+      <button class="btn-action btn-history" id="btnOpenHistory">📁 Historial de CVs</button>
+      <button class="btn-action btn-reset" id="btnReset">🔄 Reset All</button>
+    </aside>
+
+    <!-- ===== LIENZO DEL CV ===== -->
+    <section class="canvas-container">
+      <div class="cv-canvas tpl-jose" id="cv-canvas">
+        <div class="columns-layer" id="columns-layer"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ===== MODAL HISTORIAL MEJORADO ===== -->
+  <div class="modal-overlay" id="historyModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>📁 Historial de CVs</h2>
+        <button class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <div class="history-grid">
+        <div class="history-list-container" id="historyListContainer">
+          <div id="historyList">
+            <div class="history-empty">No hay CVs guardados aún. Genera uno con "Print / PDF" o "Guardar en Historial".</div>
+          </div>
+        </div>
+        <div class="preview-panel" id="previewPanel">
+          <div class="preview-panel-header">
+            <h3>👁️ Vista Previa</h3>
+            <button class="preview-close-btn" id="previewCloseBtn">&times;</button>
+          </div>
+          <div id="previewContent" class="preview-cv">
+            <div class="preview-empty">Selecciona un CV para vista previa.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * ===================================================================
+     *  CV BUILDER - Mejorado con hoja en blanco, transiciones suaves y PDF desde historial
+     * ===================================================================
+     */
+    (function() {
+      'use strict';
+
+      // ===================================================================
+      // 1. TRADUCCIONES (i18n)
+      // ===================================================================
+      const TRANSLATIONS = {
+        es: {
+          nombre: 'Hercias Natanael Ramos Lopez',
+          cargo: 'PUESTO OCUPADO / BUSCADO',
+          datos_personales: '🎂 Nacimiento: 15/08/1995<br>🆔 DNI: 1234 56789 0101<br>🚗 Licencia de Conducir',
+          contacto: '📞 999 999 999<br>✉️ hercias.ramos@gmail.com<br>📍 México DF<br>🔗 linkedin.com/hercias-ramos',
+          idiomas: '<strong>Español:</strong> Nativo<br><strong>Inglés:</strong> Bilingüe (TOEIC 950)<br><strong>Francés:</strong> Intermedio (B2)',
+          habilidades: '• Inteligencia emocional<br>• Espíritu crítico<br>• Trabajo en equipo<br>• Capacidad analítica<br>• Habilidades físicas',
+          perfil: 'Trabajador Social con 4 años de experiencia en proyectos colectivos. Mi objetivo es lograr que los jóvenes obtengan acceso a la educación superior mediante logros deportivos.',
+          experiencia: '<strong>Trabajador Social</strong><br><span style="color:#888;">México DF, | 2022 – Actualmente</span><br>• Coordinador y mediador entre los equipos de ayuda psicológica a jóvenes y niños en exclusión social.<br>• Velar por la salud mental del equipo y de miembros involucrados en proyectos.<br>• Mapeo de necesidades estratégicas y lógicas para las diferentes áreas.<br>• Monitor de ejercicios físicos para adolescentes.<br><br><strong>Trabajador Social</strong><br><span style="color:#888;">México DF, | 2020 – 2022</span><br>• Funciones para seguimiento de casos para jóvenes con problemas de adicciones.',
+          educacion: '<strong>Grado de Trabajo Social</strong><br>ESMA, Madrid | 2012 – 2015<br><br><strong>Licenciatura Profesional</strong><br>Universidad de la Frontera, México DF | 2011 – 2012',
+          ref_laboral: '<strong>Ing. Carlos Gómez</strong> - Gerente General<br>📞 Tel: +502 4444 4444',
+          ref_personal: '<strong>Lic. Ana Martínez</strong><br>📞 Tel: +502 3333 3333',
+          h_datos_personales: 'Datos Personales',
+          h_contacto: 'Contacto',
+          h_idiomas: 'Idiomas',
+          h_habilidades: 'Aptitudes',
+          h_perfil: 'Perfil',
+          h_experiencia: 'Experiencia Laboral',
+          h_educacion: 'Formación',
+          h_ref_laboral: 'Referencias Laborales',
+          h_ref_personal: 'Referencias Personales'
+        },
+        en: {
+          nombre: 'Hercias Natanael Ramos Lopez',
+          cargo: 'POSITION HELD / SOUGHT',
+          datos_personales: '🎂 Birth: 15/08/1995<br>🆔 ID: 1234 56789 0101<br>🚗 Driver\'s License',
+          contacto: '📞 999 999 999<br>✉️ hercias.ramos@gmail.com<br>📍 Mexico City<br>🔗 linkedin.com/hercias-ramos',
+          idiomas: '<strong>Spanish:</strong> Native<br><strong>English:</strong> Bilingual (TOEIC 950)<br><strong>French:</strong> Intermediate (B2)',
+          habilidades: '• Emotional intelligence<br>• Critical thinking<br>• Teamwork<br>• Analytical skills<br>• Physical abilities',
+          perfil: 'Social Worker with 4 years of experience in collective projects. My goal is to help young people gain access to higher education through sports achievements.',
+          experiencia: '<strong>Social Worker</strong><br><span style="color:#888;">Mexico City | 2022 – Present</span><br>• Coordinator and mediator between psychological support teams for youth and children in social exclusion.<br>• Ensure the mental health of the team and project members.<br>• Strategic and logical needs mapping for different areas.<br>• Physical exercise monitor for adolescents.<br><br><strong>Social Worker</strong><br><span style="color:#888;">Mexico City | 2020 – 2022</span><br>• Case follow-up for young people with addiction issues.',
+          educacion: '<strong>Bachelor of Social Work</strong><br>ESMA, Madrid | 2012 – 2015<br><br><strong>Professional Degree</strong><br>Universidad de la Frontera, Mexico City | 2011 – 2012',
+          ref_laboral: '<strong>Eng. Carlos Gómez</strong> - General Manager<br>📞 Tel: +502 4444 4444',
+          ref_personal: '<strong>Lic. Ana Martínez</strong><br>📞 Tel: +502 3333 3333',
+          h_datos_personales: 'Personal Details',
+          h_contacto: 'Contact',
+          h_idiomas: 'Languages',
+          h_habilidades: 'Skills',
+          h_perfil: 'Profile',
+          h_experiencia: 'Work Experience',
+          h_educacion: 'Education',
+          h_ref_laboral: 'Professional References',
+          h_ref_personal: 'Personal References'
+        },
+        fr: {
+          nombre: 'Hercias Natanael Ramos Lopez',
+          cargo: 'POSTE OCCUPÉ / RECHERCHÉ',
+          datos_personales: '🎂 Naissance: 15/08/1995<br>🆔 ID: 1234 56789 0101<br>🚗 Permis de conduire',
+          contacto: '📞 999 999 999<br>✉️ hercias.ramos@gmail.com<br>📍 Mexico DF<br>🔗 linkedin.com/hercias-ramos',
+          idiomas: '<strong>Espagnol:</strong> Natif<br><strong>Anglais:</strong> Bilingue (TOEIC 950)<br><strong>Français:</strong> Intermédiaire (B2)',
+          habilidades: '• Intelligence émotionnelle<br>• Esprit critique<br>• Travail d\'équipe<br>• Capacité d\'analyse<br>• Compétences physiques',
+          perfil: 'Travailleur social avec 4 ans d\'expérience dans des projets collectifs. Mon objectif est d\'aider les jeunes à accéder à l\'enseignement supérieur par le biais de réalisations sportives.',
+          experiencia: '<strong>Travailleur social</strong><br><span style="color:#888;">Mexico DF | 2022 – Présent</span><br>• Coordinateur et médiateur entre les équipes de soutien psychologique pour les jeunes et les enfants en situation d\'exclusion sociale.<br>• Assurer la santé mentale de l\'équipe et des membres impliqués dans les projets.<br>• Cartographie des besoins stratégiques et logiques pour les différents domaines.<br>• Moniteur d\'exercices physiques pour les adolescents.<br><br><strong>Travailleur social</strong><br><span style="color:#888;">Mexico DF | 2020 – 2022</span><br>• Suivi de cas pour les jeunes ayant des problèmes de dépendance.',
+          educacion: '<strong>Diplôme en travail social</strong><br>ESMA, Madrid | 2012 – 2015<br><br><strong>Licence professionnelle</strong><br>Universidad de la Frontera, Mexico DF | 2011 – 2012',
+          ref_laboral: '<strong>Ing. Carlos Gómez</strong> - Directeur général<br>📞 Tél: +502 4444 4444',
+          ref_personal: '<strong>Lic. Ana Martínez</strong><br>📞 Tél: +502 3333 3333',
+          h_datos_personales: 'Coordonnées personnelles',
+          h_contacto: 'Contact',
+          h_idiomas: 'Langues',
+          h_habilidades: 'Compétences',
+          h_perfil: 'Profil',
+          h_experiencia: 'Expérience professionnelle',
+          h_educacion: 'Formation',
+          h_ref_laboral: 'Références professionnelles',
+          h_ref_personal: 'Références personnelles'
+        },
+        it: {
+          nombre: 'Hercias Natanael Ramos Lopez',
+          cargo: 'POSIZIONE RICOPERTA / RICERCATA',
+          datos_personales: '🎂 Nascita: 15/08/1995<br>🆔 ID: 1234 56789 0101<br>🚗 Patente di guida',
+          contacto: '📞 999 999 999<br>✉️ hercias.ramos@gmail.com<br>📍 Città del Messico<br>🔗 linkedin.com/hercias-ramos',
+          idiomas: '<strong>Spagnolo:</strong> Madrelingua<br><strong>Inglese:</strong> Bilingue (TOEIC 950)<br><strong>Francese:</strong> Intermedio (B2)',
+          habilidades: '• Intelligenza emotiva<br>• Spirito critico<br>• Lavoro di squadra<br>• Capacità analitica<br>• Abilità fisiche',
+          perfil: 'Assistente sociale con 4 anni di esperienza in progetti collettivi. Il mio obiettivo è aiutare i giovani ad accedere all\'istruzione superiore attraverso risultati sportivi.',
+          experiencia: '<strong>Assistente sociale</strong><br><span style="color:#888;">Città del Messico | 2022 – Presente</span><br>• Coordinatore e mediatore tra le squadre di supporto psicologico per giovani e bambini in esclusione sociale.<br>• Garantire la salute mentale del team e dei membri coinvolti nei progetti.<br>• Mappatura dei bisogni strategici e logici per le diverse aree.<br>• Monitor di esercizi fisici per adolescenti.<br><br><strong>Assistente sociale</strong><br><span style="color:#888;">Città del Messico | 2020 – 2022</span><br>• Follow-up dei casi per giovani con problemi di dipendenza.',
+          educacion: '<strong>Laurea in Servizio Sociale</strong><br>ESMA, Madrid | 2012 – 2015<br><br><strong>Laurea Professionale</strong><br>Universidad de la Frontera, Città del Messico | 2011 – 2012',
+          ref_laboral: '<strong>Ing. Carlos Gómez</strong> - Direttore Generale<br>📞 Tel: +502 4444 4444',
+          ref_personal: '<strong>Lic. Ana Martínez</strong><br>📞 Tel: +502 3333 3333',
+          h_datos_personales: 'Dati Personali',
+          h_contacto: 'Contatti',
+          h_idiomas: 'Lingue',
+          h_habilidades: 'Competenze',
+          h_perfil: 'Profilo',
+          h_experiencia: 'Esperienza Lavorativa',
+          h_educacion: 'Formazione',
+          h_ref_laboral: 'Referenze Professionali',
+          h_ref_personal: 'Referenze Personali'
+        }
+      };
+
+      // ===================================================================
+      // 2. DATOS POR DEFECTO
+      // ===================================================================
+      const DEFAULT_PHOTO_SVG =
+        `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"%3E%3Crect width="400" height="400" fill="%23d1d5db"/%3E%3Crect y="0" width="400" height="180" fill="%23e5e7eb"/%3E%3Cpolygon points="0,200 100,120 200,180 300,100 400,160 400,200" fill="%23f3f4f6"/%3E%3Cpolygon points="0,230 120,160 250,200 400,150 400,250" fill="%23e5e7eb"/%3E%3Crect y="230" width="400" height="170" fill="%239ca3af"/%3E%3Crect y="270" width="400" height="130" fill="%236b7280"/%3E%3C/svg%3E`;
+
+      // ===================================================================
+      // 3. ESTADO GLOBAL
+      // ===================================================================
+      function loadState() {
+        const stored = localStorage.getItem('cv_state');
+        if (stored) {
+          try { return JSON.parse(stored); } catch (_) { /* ignore */ }
+        }
+        return null;
+      }
+
+      function saveState(state) {
+        localStorage.setItem('cv_state', JSON.stringify(state));
+      }
+
+      let currentLang = loadState()?.lang || 'es';
+
+      function getTranslations(lang) {
+        return TRANSLATIONS[lang] || TRANSLATIONS.es;
+      }
+
+      function buildUserDataFromLang(lang) {
+        const t = getTranslations(lang);
+        return {
+          nombre: t.nombre,
+          cargo: t.cargo,
+          photo: DEFAULT_PHOTO_SVG,
+          datos_personales: t.datos_personales,
+          contacto: t.contacto,
+          idiomas: t.idiomas,
+          habilidades: t.habilidades,
+          perfil: t.perfil,
+          experiencia: t.experiencia,
+          educacion: t.educacion,
+          ref_laboral: t.ref_laboral,
+          ref_personal: t.ref_personal,
+          h_datos_personales: t.h_datos_personales,
+          h_contacto: t.h_contacto,
+          h_idiomas: t.h_idiomas,
+          h_habilidades: t.h_habilidades,
+          h_perfil: t.h_perfil,
+          h_experiencia: t.h_experiencia,
+          h_educacion: t.h_educacion,
+          h_ref_laboral: t.h_ref_laboral,
+          h_ref_personal: t.h_ref_personal
+        };
+      }
+
+      const initialUserData = loadState()?.userData || buildUserDataFromLang(currentLang);
+      const initialMargins = loadState()?.margins || { top: 20, bottom: 20, left: 20, right: 20 };
+      const initialFontSizes = loadState()?.fontSizes || { title: 18, subtitle: 10, heading: 10, text: 8.5 };
+      const initialColumns = loadState()?.columns || [35, 65];
+      const initialHistory = loadState()?.history || [];
+
+      const state = {
+        userData: initialUserData,
+        margins: initialMargins,
+        fontSizes: initialFontSizes,
+        columns: initialColumns,
+        template: loadState()?.template || 'jose',
+        photoShape: loadState()?.photoShape || 'circle',
+        colors: loadState()?.colors || {
+          bgHeader: '#4a4a4a',
+          bgCanvas: '#ffffff',
+          bgSidebar: '#e5e7eb',
+          primary: '#374151',
+          accent: '#6b7280',
+          textGlobal: '#1a1a1a',
+          font: "'Inter', sans-serif"
+        },
+        lang: currentLang,
+        history: initialHistory,
+        loadedEntryId: null,
+        isDirty: false
+      };
+
+      function persistState() {
+        saveState({
+          userData: state.userData,
+          margins: state.margins,
+          fontSizes: state.fontSizes,
+          columns: state.columns,
+          template: state.template,
+          photoShape: state.photoShape,
+          colors: state.colors,
+          lang: state.lang,
+          history: state.history
+        });
+      }
+
+      function markDirty() {
+        state.isDirty = true;
+        updateDirtyIndicator();
+      }
+
+      function clearDirty() {
+        state.isDirty = false;
+        updateDirtyIndicator();
+      }
+
+      function updateDirtyIndicator() {
+        const panelTitle = document.querySelector('.panel-title:first-child');
+        if (panelTitle) {
+          if (state.isDirty && !panelTitle.textContent.includes('*')) {
+            panelTitle.textContent = panelTitle.textContent.trim() + ' *';
+          } else if (!state.isDirty && panelTitle.textContent.includes('*')) {
+            panelTitle.textContent = panelTitle.textContent.replace(' *', '');
+          }
+        }
+      }
+
+      // ===================================================================
+      // 4. REFERENCIAS DOM
+      // ===================================================================
+      const canvas = document.getElementById('cv-canvas');
+      const layer = document.getElementById('columns-layer');
+      const templateSelect = document.getElementById('template-select');
+      const langSelect = document.getElementById('lang-select');
+      const colControls = document.getElementById('col-controls');
+      const btnAddCol = document.getElementById('btnAddCol');
+      const photoShapeSelect = document.getElementById('photo-shape');
+      const marginTop = document.getElementById('page-margin-top');
+      const marginBottom = document.getElementById('page-margin-bottom');
+      const marginLeft = document.getElementById('page-margin-left');
+      const marginRight = document.getElementById('page-margin-right');
+      const fontTitle = document.getElementById('font-title-size');
+      const fontSubtitle = document.getElementById('font-subtitle-size');
+      const fontHeading = document.getElementById('font-heading-size');
+      const fontText = document.getElementById('font-text-size');
+      const colorBgHeader = document.getElementById('color-bg-header');
+      const colorBgCanvas = document.getElementById('color-bg-canvas');
+      const colorBgSidebar = document.getElementById('color-bg-sidebar');
+      const colorPrimary = document.getElementById('color-primary');
+      const colorAccent = document.getElementById('color-accent');
+      const colorTextGlobal = document.getElementById('color-text-global');
+      const fontSelect = document.getElementById('font-select');
+      const photoInput = document.getElementById('photo-input');
+      const photoUrlInput = document.getElementById('photo-url-input');
+      const btnLoadPhotoURL = document.getElementById('btnLoadPhotoURL');
+      const btnAutoFit = document.getElementById('btnAutoFit');
+      const btnPrint = document.getElementById('btnPrint');
+      const btnSaveHistory = document.getElementById('btnSaveHistory');
+      const btnUpdateHistory = document.getElementById('btnUpdateHistory');
+      const btnOpenHistory = document.getElementById('btnOpenHistory');
+      const btnReset = document.getElementById('btnReset');
+      const historyModal = document.getElementById('historyModal');
+      const modalClose = document.getElementById('modalClose');
+      const historyList = document.getElementById('historyList');
+      const previewPanel = document.getElementById('previewPanel');
+      const previewContent = document.getElementById('previewContent');
+      const previewCloseBtn = document.getElementById('previewCloseBtn');
+
+      // ===================================================================
+      // 5. FUNCIONES AUXILIARES
+      // ===================================================================
+      function getMargins() {
+        return {
+          top: parseInt(marginTop.value, 10) || 0,
+          bottom: parseInt(marginBottom.value, 10) || 0,
+          left: parseInt(marginLeft.value, 10) || 0,
+          right: parseInt(marginRight.value, 10) || 0
+        };
+      }
+
+      function updateMarginCSS() {
+        const m = getMargins();
+        document.documentElement.style.setProperty('--page-margin-top', m.top + 'px');
+        document.documentElement.style.setProperty('--page-margin-bottom', m.bottom + 'px');
+        document.documentElement.style.setProperty('--page-margin-left', m.left + 'px');
+        document.documentElement.style.setProperty('--page-margin-right', m.right + 'px');
+      }
+
+      function getCanvasWidth() { return canvas.offsetWidth; }
+
+      function getCanvasHeight() { return canvas.offsetHeight; }
+
+      // ===================================================================
+      // 6. TEMA
+      // ===================================================================
+      function updateTheme() {
+        const primary = colorPrimary.value;
+        const accent = colorAccent.value;
+        const textGlobal = colorTextGlobal.value;
+        const bgCanvas = colorBgCanvas.value;
+        const bgSidebar = colorBgSidebar.value;
+        const bgHeader = colorBgHeader.value;
+        const font = fontSelect.value;
+
+        document.documentElement.style.setProperty('--cv-primary', primary);
+        document.documentElement.style.setProperty('--cv-accent', accent);
+        document.documentElement.style.setProperty('--cv-text', textGlobal);
+        document.documentElement.style.setProperty('--cv-bg-canvas', bgCanvas);
+        document.documentElement.style.setProperty('--cv-bg-sidebar', bgSidebar);
+        document.documentElement.style.setProperty('--cv-bg-header', bgHeader);
+        document.documentElement.style.setProperty('--cv-font', font);
+
+        state.colors = { bgHeader, bgCanvas, bgSidebar, primary, accent, textGlobal, font };
+        persistState();
+        markDirty();
+      }
+
+      function updateFontSizes() {
+        const title = parseFloat(fontTitle.value) || 18;
+        const subtitle = parseFloat(fontSubtitle.value) || 10;
+        const heading = parseFloat(fontHeading.value) || 10;
+        const text = parseFloat(fontText.value) || 8.5;
+
+        document.documentElement.style.setProperty('--cv-title-size', title + 'pt');
+        document.documentElement.style.setProperty('--cv-subtitle-size', subtitle + 'pt');
+        document.documentElement.style.setProperty('--cv-heading-size', heading + 'pt');
+        document.documentElement.style.setProperty('--cv-text-size', text + 'pt');
+
+        state.fontSizes = { title, subtitle, heading, text };
+        persistState();
+        markDirty();
+      }
+
+      function loadThemeAndFonts() {
+        const c = state.colors;
+        colorBgHeader.value = c.bgHeader;
+        colorBgCanvas.value = c.bgCanvas;
+        colorBgSidebar.value = c.bgSidebar;
+        colorPrimary.value = c.primary;
+        colorAccent.value = c.accent;
+        colorTextGlobal.value = c.textGlobal;
+        fontSelect.value = c.font;
+        updateTheme();
+
+        const fs = state.fontSizes;
+        fontTitle.value = fs.title;
+        fontSubtitle.value = fs.subtitle;
+        fontHeading.value = fs.heading;
+        fontText.value = fs.text;
+        updateFontSizes();
+        clearDirty();
+      }
+
+      // ===================================================================
+      // 7. MÁRGENES
+      // ===================================================================
+      function loadMargins() {
+        const m = state.margins;
+        marginTop.value = m.top;
+        marginBottom.value = m.bottom;
+        marginLeft.value = m.left;
+        marginRight.value = m.right;
+        updateMarginCSS();
+      }
+
+      function saveMargins() {
+        state.margins = getMargins();
+        persistState();
+        updateMarginCSS();
+        autoFitCanvasContent();
+        markDirty();
+      }
+
+      // ===================================================================
+      // 8. FOTO
+      // ===================================================================
+      function changePhotoShape(shape) {
+        const container = document.querySelector('.cv-photo-container');
+        if (!container) return;
+        container.className = 'cv-photo-container';
+        if (shape !== 'circle') { container.classList.add('shape-' + shape); }
+        const shapeMap = { circle: '50%', square: '8px', hexagon: '0px', star: '0px', heart: '0px', diamond: '0px' };
+        document.documentElement.style.setProperty('--photo-shape', shapeMap[shape] || '50%');
+        state.photoShape = shape;
+        persistState();
+        markDirty();
+      }
+
+      function loadPhotoShape() {
+        photoShapeSelect.value = state.photoShape;
+        changePhotoShape(state.photoShape);
+        clearDirty();
+      }
+
+      function setPhoto(src) {
+        state.userData.photo = src;
+        persistState();
+        document.querySelectorAll('#cv-photo-img').forEach(img => img.src = src);
+        markDirty();
+      }
+
+      function uploadPhoto(file) {
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) { setPhoto(e.target.result); };
+          reader.readAsDataURL(file);
+        }
+      }
+
+      function uploadPhotoFromURL(url) {
+        if (!url || !url.trim()) { alert('Por favor ingresa una URL válida.'); return; }
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = function() {
+          const canvas2 = document.createElement('canvas');
+          canvas2.width = img.width;
+          canvas2.height = img.height;
+          const ctx = canvas2.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          try {
+            const dataUrl = canvas2.toDataURL('image/jpeg');
+            setPhoto(dataUrl);
+          } catch (e) {
+            setPhoto(url);
+          }
+        };
+        img.onerror = function() {
+          setPhoto(url);
+        };
+        img.src = url;
+      }
+
+      // ===================================================================
+      // 9. COLUMNAS
+      // ===================================================================
+      function renderColumnControls() {
+        const cols = state.columns;
+        const total = cols.reduce((a, b) => a + b, 0);
+        if (Math.abs(total - 100) > 0.01) {
+          const factor = 100 / total;
+          for (let i = 0; i < cols.length; i++) { cols[i] = Math.round(cols[i] * factor); }
+          let sum = cols.reduce((a, b) => a + b, 0);
+          if (sum !== 100) { cols[0] += 100 - sum; }
+        }
+
+        colControls.innerHTML = '';
+        cols.forEach((width, index) => {
+          const div = document.createElement('div');
+          div.className = 'col-control-item';
+          div.innerHTML = `
+            <label>Col ${index + 1}</label>
+            <input type="range" min="5" max="95" value="${width}" data-index="${index}" />
+            <input type="number" min="5" max="95" value="${width}" data-index="${index}" />
+            <button class="btn-del-col" data-index="${index}" ${cols.length <= 1 ? 'disabled' : ''}>✖</button>
+          `;
+          colControls.appendChild(div);
+
+          const range = div.querySelector('input[type="range"]');
+          const number = div.querySelector('input[type="number"]');
+          const delBtn = div.querySelector('.btn-del-col');
+
+          const updateWidth = (val) => {
+            const newVal = Math.min(95, Math.max(5, parseInt(val, 10) || 5));
+            cols[index] = newVal;
+            const total2 = cols.reduce((a, b) => a + b, 0);
+            if (total2 !== 100) {
+              const diff = 100 - total2;
+              for (let i = 0; i < cols.length; i++) {
+                if (i !== index) { cols[i] = Math.max(5, Math.min(95, cols[i] + diff)); break; }
+              }
+              renderColumnControls();
+              applyColumnsToCanvas();
+              return;
+            }
+            range.value = newVal;
+            number.value = newVal;
+            persistState();
+            applyColumnsToCanvas();
+            markDirty();
+          };
+
+          range.addEventListener('input', function() { updateWidth(this.value); });
+          number.addEventListener('change', function() { updateWidth(this.value); });
+
+          delBtn.addEventListener('click', function() {
+            if (cols.length <= 1) return;
+            cols.splice(index, 1);
+            renderColumnControls();
+            applyColumnsToCanvas();
+            persistState();
+            markDirty();
+          });
+        });
+
+        btnAddCol.disabled = cols.length >= 3;
+      }
+
+      function applyColumnsToCanvas() {
+        const cols = state.columns;
+        if (cols.length === 0) { layer.style.display = 'none'; return; }
+        layer.style.display = 'grid';
+        const fractions = cols.map(w => w + 'fr').join(' ');
+        layer.style.gridTemplateColumns = fractions;
+
+        layer.innerHTML = '';
+        for (let i = 0; i < cols.length; i++) {
+          const col = document.createElement('div');
+          col.className = 'cv-column';
+          layer.appendChild(col);
+        }
+        persistState();
+        setTimeout(autoFitCanvasContent, 50);
+      }
+
+      // ===================================================================
+      // 10. AUTO-AJUSTE
+      // ===================================================================
+      function autoFitCanvasContent() {
+        const canvasHeight = getCanvasHeight();
+        const canvasWidth = getCanvasWidth();
+        const margins = getMargins();
+
+        const colElements = layer.querySelectorAll('.cv-column');
+        if (colElements.length === 0) return;
+        const gridCols = window.getComputedStyle(layer).gridTemplateColumns;
+        if (gridCols === 'none') return;
+
+        const usableWidth = canvasWidth - margins.left - margins.right;
+        const usableHeight = canvasHeight - margins.top - margins.bottom;
+
+        const cols = state.columns;
+        const totalFrac = cols.reduce((a, b) => a + b, 0);
+        const colPixels = cols.map(w => (w / totalFrac) * usableWidth);
+
+        const headerItem = document.querySelector('.cv-item.is-header-block');
+        let headerHeight = 0;
+        if (headerItem) {
+          const fullWidthTemplates = ['tpl-jose', 'tpl-harvard', 'tpl-corporate', 'tpl-board', 'tpl-minimal', 'tpl-legal',
+            'tpl-exec-right', 'tpl-exec-right-dark', 'tpl-exec-right-clean', 'tpl-exec-right-classic',
+            'tpl-exec-right-modern'
+          ];
+          const isFullWidth = fullWidthTemplates.some(cls => canvas.classList.contains(cls));
+          if (isFullWidth) {
+            headerItem.style.left = '0px';
+            headerItem.style.width = '100%';
+          } else {
+            headerItem.style.left = margins.left + 'px';
+            headerItem.style.width = usableWidth + 'px';
+          }
+          headerItem.style.top = margins.top + 'px';
+          headerItem.style.height = 'auto';
+          headerHeight = headerItem.offsetHeight;
+        }
+
+        const startY = margins.top + headerHeight + (headerHeight > 0 ? 15 : 0);
+        const availableHeight = canvasHeight - startY - margins.bottom;
+
+        if (availableHeight <= 0 || colPixels.length === 0) return;
+
+        const items = Array.from(document.querySelectorAll('.cv-item'))
+          .filter(item => !item.classList.contains('is-header-block'));
+
+        const colItems = colPixels.map(() => []);
+        items.forEach((item, index) => {
+          const colIndex = index % colPixels.length;
+          colItems[colIndex].push(item);
+        });
+
+        let leftOffset = margins.left;
+        colItems.forEach((columnItems, colIdx) => {
+          if (columnItems.length === 0) { leftOffset += colPixels[colIdx] + 0; return; }
+          const colWidth = colPixels[colIdx];
+
+          columnItems.forEach(item => {
+            item.style.width = colWidth + 'px';
+            item.style.height = 'auto';
+          });
+
+          let totalHeight = columnItems.reduce((acc, item) => acc + item.offsetHeight, 0);
+          let gap = 15;
+          if (columnItems.length > 1) {
+            gap = (availableHeight - totalHeight) / (columnItems.length - 1);
+            gap = Math.max(8, Math.min(gap, 35));
+          }
+
+          let currentTop = startY;
+          columnItems.forEach(item => {
+            item.style.left = leftOffset + 'px';
+            item.style.top = Math.round(currentTop) + 'px';
+            currentTop += item.offsetHeight + gap;
+          });
+
+          leftOffset += colWidth + 0;
+        });
+      }
+
+      // ===================================================================
+      // 11. PLANTILLAS (con transición suave y opción "blank")
+      // ===================================================================
+      function applyTemplate(name, skipDirtyCheck = false) {
+        if (!skipDirtyCheck && state.isDirty) {
+          if (!confirm('Tienes cambios sin guardar. ¿Quieres guardarlos antes de cambiar de plantilla?')) {
+            return;
+          }
+          saveToHistoryOnly();
+        }
+
+        // Guardar datos actuales antes de limpiar
+        saveCurrentCanvasToUserData();
+
+        // Iniciar transición de salida
+        canvas.classList.add('fade-out');
+
+        setTimeout(() => {
+          // Limpiar canvas (excepto layer)
+          canvas.innerHTML = '';
+          canvas.appendChild(layer);
+          canvas.className = 'cv-canvas';
+
+          // Aplicar clase de plantilla
+          const templateClassMap = {
+            jose: 'tpl-jose',
+            eulalia: 'tpl-executive',
+            tech_dark: 'tpl-tech-dark',
+            swiss: 'tpl-swiss',
+            creativo: 'tpl-creativo',
+            minimalista: 'tpl-minimalista',
+            completo: 'tpl-completo',
+            blanco: 'tpl-blanco',
+            harvard: 'tpl-harvard',
+            corporate: 'tpl-corporate',
+            board: 'tpl-board',
+            minimal: 'tpl-minimal',
+            legal: 'tpl-legal',
+            exec_right: 'tpl-exec-right',
+            exec_right_dark: 'tpl-exec-right-dark',
+            exec_right_clean: 'tpl-exec-right-clean',
+            exec_right_classic: 'tpl-exec-right-classic',
+            exec_right_modern: 'tpl-exec-right-modern'
+          };
+          if (templateClassMap[name]) { canvas.classList.add(templateClassMap[name]); }
+
+          // Columnas
+          const colMap = {
+            jose: [35, 65],
+            eulalia: [35, 65],
+            tech_dark: [35, 65],
+            swiss: [35, 65],
+            creativo: [50, 50],
+            minimalista: [100],
+            completo: [33, 33, 34],
+            blanco: [33, 33, 34],
+            harvard: [30, 70],
+            corporate: [35, 65],
+            board: [30, 70],
+            minimal: [40, 60],
+            legal: [25, 75],
+            exec_right: [70, 30],
+            exec_right_dark: [70, 30],
+            exec_right_clean: [70, 30],
+            exec_right_classic: [70, 30],
+            exec_right_modern: [70, 30]
+          };
+          state.columns = colMap[name] || [35, 65];
+          renderColumnControls();
+          applyColumnsToCanvas();
+
+          // Colores de la plantilla
+          const colorSets = {
+            jose: { bgCanvas: '#ffffff', bgSidebar: '#e5e7eb', bgHeader: '#4a4a4a', primary: '#374151', accent: '#6b7280',
+              textGlobal: '#1a1a1a', font: "'Inter', sans-serif" },
+            eulalia: { bgCanvas: '#ffffff', bgSidebar: '#e5e7eb', bgHeader: '#4a4a4a', primary: '#374151',
+              accent: '#6b7280', textGlobal: '#1a1a1a', font: "'Inter', sans-serif" },
+            tech_dark: { bgCanvas: '#ffffff', bgSidebar: '#e5e7eb', bgHeader: '#4a4a4a', primary: '#374151',
+              accent: '#6b7280', textGlobal: '#1a1a1a', font: "'Inter', sans-serif" },
+            swiss: { bgCanvas: '#f8fafc', bgSidebar: '#e5e7eb', bgHeader: '#4a4a4a', primary: '#374151', accent: '#6b7280',
+              textGlobal: '#1a1a1a', font: "'Inter', sans-serif" },
+            creativo: { bgCanvas: '#ffffff', bgSidebar: '#e5e7eb', bgHeader: '#4a4a4a', primary: '#374151',
+              accent: '#6b7280', textGlobal: '#1a1a1a', font: "'Roboto', sans-serif" },
+            minimalista: { bgCanvas: '#ffffff', bgSidebar: '#e5e7eb', bgHeader: '#4a4a4a', primary: '#374151',
+              accent: '#6b7280', textGlobal: '#1a1a1a', font: "'Playfair Display', serif" },
+            completo: { bgCanvas: '#ffffff', bgSidebar: '#e5e7eb', bgHeader: '#4a4a4a', primary: '#374151',
+              accent: '#6b7280', textGlobal: '#1a1a1a', font: "'Inter', sans-serif" },
+            blanco: { bgCanvas: '#ffffff', bgSidebar: '#e5e7eb', bgHeader: '#4a4a4a', primary: '#374151', accent: '#6b7280',
+              textGlobal: '#1a1a1a', font: "'Inter', sans-serif" },
+            harvard: { bgCanvas: '#fcfcfc', bgSidebar: '#f0f0f0', bgHeader: '#2c3e50', primary: '#2c3e50',
+              accent: '#7f8c8d', textGlobal: '#1a1a1a', font: "Georgia, serif" },
+            corporate: { bgCanvas: '#ffffff', bgSidebar: '#f8f9fa', bgHeader: '#1a1a1a', primary: '#1a1a1a',
+              accent: '#6c757d', textGlobal: '#212529', font: "'Inter', sans-serif" },
+            board: { bgCanvas: '#ffffff', bgSidebar: '#edf2f7', bgHeader: '#2d3748', primary: '#2d3748',
+              accent: '#4a5568', textGlobal: '#1a202c', font: "'Roboto', sans-serif" },
+            minimal: { bgCanvas: '#ffffff', bgSidebar: '#f8f9fa', bgHeader: '#f8f9fa', primary: '#343a40',
+              accent: '#6c757d', textGlobal: '#212529', font: "'Inter', sans-serif" },
+            legal: { bgCanvas: '#fefefe', bgSidebar: '#f2f0ed', bgHeader: '#3d3d3d', primary: '#3d3d3d',
+              accent: '#8b7355', textGlobal: '#1a1a1a', font: "'Playfair Display', serif" },
+            exec_right: { bgCanvas: '#ffffff', bgSidebar: '#e5e7eb', bgHeader: '#4a4a4a', primary: '#374151',
+              accent: '#6b7280', textGlobal: '#1a1a1a', font: "'Inter', sans-serif" },
+            exec_right_dark: { bgCanvas: '#ffffff', bgSidebar: '#2d2d2d', bgHeader: '#1a1a1a', primary: '#ffffff',
+              accent: '#9ca3af', textGlobal: '#e5e7eb', font: "'Inter', sans-serif" },
+            exec_right_clean: { bgCanvas: '#ffffff', bgSidebar: '#f1f5f9', bgHeader: '#334155', primary: '#1e293b',
+              accent: '#64748b', textGlobal: '#0f172a', font: "'Inter', sans-serif" },
+            exec_right_classic: { bgCanvas: '#ffffff', bgSidebar: '#e8e0d5', bgHeader: '#3d3d3d', primary: '#2d2d2d',
+              accent: '#8b7355', textGlobal: '#1a1a1a', font: "'Playfair Display', serif" },
+            exec_right_modern: { bgCanvas: '#ffffff', bgSidebar: '#f0f4f8', bgHeader: '#0f172a', primary: '#0f172a',
+              accent: '#3b82f6', textGlobal: '#1e293b', font: "'Roboto', sans-serif" }
+          };
+          const colors = colorSets[name] || colorSets.jose;
+          Object.assign(state.colors, colors);
+          loadThemeAndFonts();
+
+          // Añadir bloques (excepto si es "blanco")
+          if (name !== 'blanco') {
+            addAllBlocksToCanvas();
+          } else {
+            // Limpiar bloques y solo dejar el encabezado si se desea, pero mejor vacío.
+            // Si se quiere empezar desde cero, no añadimos nada.
+            // Pero el usuario puede añadir bloques manualmente.
+            // Dejamos el canvas vacío (solo capa de columnas)
+          }
+
+          state.template = name;
+          persistState();
+          clearDirty();
+
+          // Forzar reflujo y transición de entrada
+          requestAnimationFrame(() => {
+            canvas.classList.remove('fade-out');
+            canvas.classList.add('fade-in');
+            setTimeout(() => {
+              canvas.classList.remove('fade-in');
+              autoFitCanvasContent();
+            }, 300);
+          });
+        }, 200); // espera a que termine la transición de salida
+      }
+
+      // ===================================================================
+      // 12. AÑADIR BLOQUES Y LISTAS
+      // ===================================================================
+      function createItemTools(extraClass, blockType) {
+        return `
+          <div class="item-tools">
+            <span class="tool-label">Color:</span>
+            <input type="color" class="tool-input-color" value="#374151" onchange="CVBuilder.changeItemTextColor(this, '${extraClass || 'cv-section-heading'}')">
+            <span class="tool-label">Fondo:</span>
+            <input type="color" class="tool-input-color" value="#ffffff" onchange="CVBuilder.changeItemBgColor(this)">
+            <button class="tool-btn" onclick="CVBuilder.changeItemAlign(this, 'left')" title="Align Left">⬅️</button>
+            <button class="tool-btn" onclick="CVBuilder.changeItemAlign(this, 'top')" title="Align Top">⬆️</button>
+            <button class="tool-btn" onclick="CVBuilder.changeItemAlign(this, 'right')" title="Align Right">➡️</button>
+            <button class="tool-btn tool-btn-add-item" onclick="CVBuilder.addListItem(this, '${blockType || ''}')" title="Añadir ítem">➕ Añadir</button>
+            <button class="tool-btn" onclick="CVBuilder.resetItemChanges(this)" title="Reset">🔄</button>
+            <button class="tool-btn" onclick="CVBuilder.removeItem(this)" title="Delete">❌</button>
+          </div>
+          <div class="resize-handle e" onmousedown="CVBuilder.initResize(event, 'e', this.closest('.cv-item'))"></div>
+          <div class="resize-handle w" onmousedown="CVBuilder.initResize(event, 'w', this.closest('.cv-item'))"></div>
+          <div class="resize-handle s" onmousedown="CVBuilder.initResize(event, 's', this.closest('.cv-item'))"></div>
+          <div class="resize-handle n" onmousedown="CVBuilder.initResize(event, 'n', this.closest('.cv-item'))"></div>
+          <div class="resize-handle se" onmousedown="CVBuilder.initResize(event, 'se', this.closest('.cv-item'))"></div>
+          <div class="resize-handle sw" onmousedown="CVBuilder.initResize(event, 'sw', this.closest('.cv-item'))"></div>
+        `;
+      }
+
+      function getHeadingText(lang, key) {
+        const t = getTranslations(lang);
+        return t[key] || key;
+      }
+
+      function addBlock(type, top = 100, left = 20, width = 240) {
+        const div = document.createElement('div');
+        div.className = 'cv-item';
+        if (type === 'encabezado') div.classList.add('is-header-block');
+
+        div.style.top = top + 'px';
+        div.style.left = left + 'px';
+        div.style.width = width + 'px';
+        div.addEventListener('mousedown', CVBuilder.initDrag);
+
+        const lang = state.lang;
+        const t = getTranslations(lang);
+        let content = '';
+
+        const headingMap = {
+          datos_personales: 'h_datos_personales',
+          contacto: 'h_contacto',
+          idiomas: 'h_idiomas',
+          habilidades: 'h_habilidades',
+          perfil: 'h_perfil',
+          experiencia: 'h_experiencia',
+          educacion: 'h_educacion',
+          ref_laboral: 'h_ref_laboral',
+          ref_personal: 'h_ref_personal'
+        };
+        const headingKey = headingMap[type] || '';
+        const headingText = headingKey ? getHeadingText(lang, headingKey) : '';
+
+        const dataMap = {
+          datos_personales: 'datos_personales',
+          contacto: 'contacto',
+          idiomas: 'idiomas',
+          habilidades: 'habilidades',
+          perfil: 'perfil',
+          experiencia: 'experiencia',
+          educacion: 'educacion',
+          ref_laboral: 'ref_laboral',
+          ref_personal: 'ref_personal'
+        };
+        const dataKey = dataMap[type] || '';
+        const dataText = dataKey ? t[dataKey] || '' : '';
+
+        const tools = createItemTools(type === 'encabezado' ? 'cv-title-main' : 'cv-section-heading', type);
+
+        switch (type) {
+          case 'encabezado': {
+            const photoSrc = state.userData.photo || DEFAULT_PHOTO_SVG;
+            content = `
+              ${tools}
+              <div class="cv-header-container align-left">
+                <div class="cv-photo-container shape-circle">
+                  <img id="cv-photo-img" src="${photoSrc}" alt="Foto">
+                </div>
+                <div class="header-text">
+                  <div class="cv-title-main" contenteditable="true" onblur="CVBuilder.saveDataAndFit()">${t.nombre}</div>
+                  <div class="cv-subtitle" contenteditable="true" onblur="CVBuilder.saveDataAndFit()">${t.cargo}</div>
+                </div>
+              </div>
+            `;
+            break;
+          }
+          default: {
+            content =
+              `${tools}<div class="cv-section-heading" contenteditable="true">${headingText || 'Sección'}</div><div class="cv-text" contenteditable="true" onblur="CVBuilder.saveDataAndFit()">${dataText || 'Contenido'}</div>`;
+            break;
+          }
+        }
+
+        div.innerHTML = content;
+        div.dataset.blockType = type;
+        canvas.appendChild(div);
+        markDirty();
+        setTimeout(autoFitCanvasContent, 30);
+      }
+
+      function addAllBlocksToCanvas() {
+        document.querySelectorAll('.cv-item').forEach(el => el.remove());
+        addBlock('encabezado');
+        addBlock('perfil');
+        addBlock('experiencia');
+        addBlock('educacion');
+        addBlock('contacto');
+        addBlock('idiomas');
+        addBlock('habilidades');
+        addBlock('ref_laboral');
+        addBlock('ref_personal');
+        clearDirty();
+      }
+
+      // ===================================================================
+      // 13. AÑADIR ÍTEM A UN BLOQUE
+      // ===================================================================
+      function addListItem(btn, blockType) {
+        const item = btn.closest('.cv-item');
+        const textDiv = item.querySelector('.cv-text');
+        if (!textDiv) return;
+
+        let type = blockType || item.dataset.blockType || '';
+        const heading = item.querySelector('.cv-section-heading');
+        if (!type && heading) {
+          const hText = heading.innerText.toLowerCase();
+          const map = {
+            'datos personales': 'datos_personales',
+            'personal details': 'datos_personales',
+            'coordonnées personnelles': 'datos_personales',
+            'dati personali': 'datos_personales',
+            'contacto': 'contacto',
+            'contact': 'contacto',
+            'idiomas': 'idiomas',
+            'languages': 'idiomas',
+            'langues': 'idiomas',
+            'lingue': 'idiomas',
+            'aptitudes': 'habilidades',
+            'skills': 'habilidades',
+            'compétences': 'habilidades',
+            'competenze': 'habilidades',
+            'perfil': 'perfil',
+            'profile': 'perfil',
+            'profil': 'perfil',
+            'profilo': 'perfil',
+            'experiencia laboral': 'experiencia',
+            'work experience': 'experiencia',
+            'expérience professionnelle': 'experiencia',
+            'esperienza lavorativa': 'experiencia',
+            'formación': 'educacion',
+            'education': 'educacion',
+            'formation': 'educacion',
+            'formazione': 'educacion',
+            'referencias laborales': 'ref_laboral',
+            'professional references': 'ref_laboral',
+            'références professionnelles': 'ref_laboral',
+            'referenze professionali': 'ref_laboral',
+            'referencias personales': 'ref_personal',
+            'personal references': 'ref_personal',
+            'références personnelles': 'ref_personal',
+            'referenze personali': 'ref_personal'
+          };
+          for (let key in map) {
+            if (hText.includes(key)) { type = map[key]; break; }
+          }
+        }
+
+        let newItem = '';
+        const lang = state.lang;
+        const t = getTranslations(lang);
+
+        switch (type) {
+          case 'idiomas':
+            newItem = `<br><strong>Nuevo idioma:</strong> Nivel`;
+            break;
+          case 'habilidades':
+            newItem = `<br>• Nueva habilidad`;
+            break;
+          case 'datos_personales':
+            newItem = `<br>🎂 Nuevo campo: Valor`;
+            break;
+          case 'contacto':
+            newItem = `<br>📱 Nuevo contacto: info`;
+            break;
+          case 'perfil':
+            newItem = `<br><br>Nuevo párrafo de perfil.`;
+            break;
+          case 'experiencia':
+            newItem =
+              `<br><br><strong>Nuevo puesto</strong><br><span style="color:#888;">Lugar | Fecha</span><br>• Descripción de responsabilidades.`;
+            break;
+          case 'educacion':
+            newItem = `<br><br><strong>Nuevo título</strong><br>Institución | Fecha`;
+            break;
+          case 'ref_laboral':
+            newItem = `<br><br><strong>Nuevo contacto</strong><br>📞 Tel: +000 0000 0000`;
+            break;
+          case 'ref_personal':
+            newItem = `<br><br><strong>Nuevo contacto</strong><br>📞 Tel: +000 0000 0000`;
+            break;
+          default:
+            newItem = `<br>• Nuevo ítem`;
+        }
+
+        const currentHTML = textDiv.innerHTML;
+        textDiv.innerHTML = currentHTML + newItem;
+
+        saveCurrentCanvasToUserData();
+        autoFitCanvasContent();
+        markDirty();
+
+        const range = document.createRange();
+        const sel = window.getSelection();
+        if (textDiv.lastChild) {
+          range.setStartAfter(textDiv.lastChild);
+          range.collapse(true);
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
+        textDiv.focus();
+      }
+
+      // ===================================================================
+      // 14. GUARDAR DATOS DEL USUARIO
+      // ===================================================================
+      function saveCurrentCanvasToUserData() {
+        const mainTitle = document.querySelector('.cv-title-main');
+        const subTitle = document.querySelector('.cv-subtitle');
+        if (mainTitle) state.userData.nombre = mainTitle.innerHTML;
+        if (subTitle) state.userData.cargo = subTitle.innerHTML;
+
+        document.querySelectorAll('.cv-item').forEach(item => {
+          const heading = item.querySelector('.cv-section-heading');
+          const text = item.querySelector('.cv-text');
+          if (heading && text) {
+            const titleText = heading.innerText.toLowerCase();
+            const map = {
+              'datos personales': 'datos_personales',
+              'personal details': 'datos_personales',
+              'coordonnées personnelles': 'datos_personales',
+              'dati personali': 'datos_personales',
+              'contacto': 'contacto',
+              'contact': 'contacto',
+              'idiomas': 'idiomas',
+              'languages': 'idiomas',
+              'langues': 'idiomas',
+              'lingue': 'idiomas',
+              'aptitudes': 'habilidades',
+              'skills': 'habilidades',
+              'compétences': 'habilidades',
+              'competenze': 'habilidades',
+              'perfil': 'perfil',
+              'profile': 'perfil',
+              'profil': 'perfil',
+              'profilo': 'perfil',
+              'experiencia laboral': 'experiencia',
+              'work experience': 'experiencia',
+              'expérience professionnelle': 'experiencia',
+              'esperienza lavorativa': 'experiencia',
+              'formación': 'educacion',
+              'education': 'educacion',
+              'formation': 'educacion',
+              'formazione': 'educacion',
+              'referencias laborales': 'ref_laboral',
+              'professional references': 'ref_laboral',
+              'références professionnelles': 'ref_laboral',
+              'referenze professionali': 'ref_laboral',
+              'referencias personales': 'ref_personal',
+              'personal references': 'ref_personal',
+              'références personnelles': 'ref_personal',
+              'referenze personali': 'ref_personal'
+            };
+            for (let key in map) {
+              if (titleText.includes(key)) {
+                const field = map[key];
+                state.userData[field] = text.innerHTML;
+                break;
+              }
+            }
+          }
+        });
+        persistState();
+      }
+
+      function saveDataAndFit() {
+        saveCurrentCanvasToUserData();
+        autoFitCanvasContent();
+        markDirty();
+      }
+
+      // ===================================================================
+      // 15. CAMBIO DE IDIOMA
+      // ===================================================================
+      function changeLanguage(lang) {
+        state.lang = lang;
+        persistState();
+
+        const t = getTranslations(lang);
+
+        const titleEl = document.querySelector('.cv-title-main');
+        const subtitleEl = document.querySelector('.cv-subtitle');
+        if (titleEl) titleEl.innerHTML = t.nombre;
+        if (subtitleEl) subtitleEl.innerHTML = t.cargo;
+
+        document.querySelectorAll('.cv-item').forEach(item => {
+          const heading = item.querySelector('.cv-section-heading');
+          const text = item.querySelector('.cv-text');
+          if (heading && text) {
+            const currentHeading = heading.innerText.toLowerCase();
+            const map = {
+              'datos personales': 'h_datos_personales',
+              'personal details': 'h_datos_personales',
+              'coordonnées personnelles': 'h_datos_personales',
+              'dati personali': 'h_datos_personales',
+              'contacto': 'h_contacto',
+              'contact': 'h_contacto',
+              'idiomas': 'h_idiomas',
+              'languages': 'h_idiomas',
+              'langues': 'h_idiomas',
+              'lingue': 'h_idiomas',
+              'aptitudes': 'h_habilidades',
+              'skills': 'h_habilidades',
+              'compétences': 'h_habilidades',
+              'competenze': 'h_habilidades',
+              'perfil': 'h_perfil',
+              'profile': 'h_perfil',
+              'profil': 'h_perfil',
+              'profilo': 'h_perfil',
+              'experiencia laboral': 'h_experiencia',
+              'work experience': 'h_experiencia',
+              'expérience professionnelle': 'h_experiencia',
+              'esperienza lavorativa': 'h_experiencia',
+              'formación': 'h_educacion',
+              'education': 'h_educacion',
+              'formation': 'h_educacion',
+              'formazione': 'h_educacion',
+              'referencias laborales': 'h_ref_laboral',
+              'professional references': 'h_ref_laboral',
+              'références professionnelles': 'h_ref_laboral',
+              'referenze professionali': 'h_ref_laboral',
+              'referencias personales': 'h_ref_personal',
+              'personal references': 'h_ref_personal',
+              'références personnelles': 'h_ref_personal',
+              'referenze personali': 'h_ref_personal'
+            };
+            let newHeading = heading.innerHTML;
+            for (let key in map) {
+              if (currentHeading.includes(key)) {
+                newHeading = t[map[key]] || heading.innerHTML;
+                break;
+              }
+            }
+            heading.innerHTML = newHeading;
+
+            const textMap = {
+              'datos personales': 'datos_personales',
+              'personal details': 'datos_personales',
+              'coordonnées personnelles': 'datos_personales',
+              'dati personali': 'datos_personales',
+              'contacto': 'contacto',
+              'contact': 'contacto',
+              'idiomas': 'idiomas',
+              'languages': 'idiomas',
+              'langues': 'idiomas',
+              'lingue': 'idiomas',
+              'aptitudes': 'habilidades',
+              'skills': 'habilidades',
+              'compétences': 'habilidades',
+              'competenze': 'habilidades',
+              'perfil': 'perfil',
+              'profile': 'perfil',
+              'profil': 'perfil',
+              'profilo': 'perfil',
+              'experiencia laboral': 'experiencia',
+              'work experience': 'experiencia',
+              'expérience professionnelle': 'experiencia',
+              'esperienza lavorativa': 'experiencia',
+              'formación': 'educacion',
+              'education': 'educacion',
+              'formation': 'educacion',
+              'formazione': 'educacion',
+              'referencias laborales': 'ref_laboral',
+              'professional references': 'ref_laboral',
+              'références professionnelles': 'ref_laboral',
+              'referenze professionali': 'ref_laboral',
+              'referencias personales': 'ref_personal',
+              'personal references': 'ref_personal',
+              'références personnelles': 'ref_personal',
+              'referenze personali': 'ref_personal'
+            };
+            let newText = text.innerHTML;
+            for (let key in textMap) {
+              if (currentHeading.includes(key)) {
+                const field = textMap[key];
+                newText = t[field] || text.innerHTML;
+                break;
+              }
+            }
+            text.innerHTML = newText;
+          }
+        });
+
+        saveCurrentCanvasToUserData();
+        autoFitCanvasContent();
+        markDirty();
+      }
+
+      // ===================================================================
+      // 16. HISTORIAL CON VISTA PREVIA Y PDF
+      // ===================================================================
+      function generateCVName(baseName) {
+        baseName = baseName.replace(/[^a-zA-Z0-9_\-\s]/g, '').trim() || 'Curriculum';
+        const regex = new RegExp('^' + baseName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(\\s(\\d+))?$');
+        const matchingItems = state.history.filter(item => regex.test(item.name));
+        if (matchingItems.length === 0) return baseName;
+        let maxNum = 0;
+        matchingItems.forEach(item => {
+          const parts = item.name.split(' ');
+          const last = parts[parts.length - 1];
+          const num = parseInt(last, 10);
+          if (!isNaN(num) && num > maxNum) maxNum = num;
+        });
+        return baseName + ' ' + (maxNum + 1);
+      }
+
+      function saveCVToHistory() {
+        saveCurrentCanvasToUserData();
+        const titleEl = document.querySelector('.cv-title-main');
+        let baseName = titleEl ? titleEl.innerText.trim() : 'Curriculum';
+        baseName = baseName.replace(/[^a-zA-Z0-9_\-\s]/g, '').trim() || 'Curriculum';
+        const finalName = generateCVName(baseName);
+        const now = new Date();
+        const dateStr = now.toLocaleString('es-ES', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        const cvEntry = {
+          id: Date.now().toString(36) + Math.random().toString(36).substr(2, 4),
+          name: finalName,
+          date: dateStr,
+          timestamp: now.getTime(),
+          userData: JSON.parse(JSON.stringify(state.userData)),
+          template: state.template,
+          columns: [...state.columns],
+          colors: JSON.parse(JSON.stringify(state.colors)),
+          margins: { ...state.margins },
+          fontSizes: { ...state.fontSizes },
+          lang: state.lang,
+          photoShape: state.photoShape
+        };
+        state.history.unshift(cvEntry);
+        if (state.history.length > 50) state.history = state.history.slice(0, 50);
+        persistState();
+        state.loadedEntryId = null;
+        btnUpdateHistory.style.display = 'none';
+        clearDirty();
+        renderHistory();
+        return cvEntry;
+      }
+
+      function updateHistoryEntry(id) {
+        const entry = state.history.find(item => item.id === id);
+        if (!entry) { alert('No se encontró la entrada.'); return; }
+        saveCurrentCanvasToUserData();
+        entry.userData = JSON.parse(JSON.stringify(state.userData));
+        entry.template = state.template;
+        entry.columns = [...state.columns];
+        entry.colors = JSON.parse(JSON.stringify(state.colors));
+        entry.margins = { ...state.margins };
+        entry.fontSizes = { ...state.fontSizes };
+        entry.lang = state.lang;
+        entry.photoShape = state.photoShape;
+        const now = new Date();
+        entry.date = now.toLocaleString('es-ES', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        entry.timestamp = now.getTime();
+        persistState();
+        state.loadedEntryId = null;
+        btnUpdateHistory.style.display = 'none';
+        clearDirty();
+        renderHistory();
+        alert('✅ CV actualizado en el historial.');
+        previewPanel.classList.remove('active');
+        previewContent.innerHTML = '<div class="preview-empty">Selecciona un CV para vista previa.</div>';
+      }
+
+      function loadCVFromHistory(id, keepModalOpen = false, forEditing = false) {
+        const entry = state.history.find(item => item.id === id);
+        if (!entry) return;
+
+        if (state.isDirty) {
+          const shouldSave = confirm('Tienes cambios sin guardar. ¿Quieres guardarlos antes de cargar este CV?');
+          if (shouldSave) {
+            saveToHistoryOnly();
+          }
+        }
+
+        Object.assign(state.userData, entry.userData);
+        state.template = entry.template || 'jose';
+        state.columns = entry.columns || [35, 65];
+        state.colors = entry.colors || state.colors;
+        state.margins = entry.margins || state.margins;
+        state.fontSizes = entry.fontSizes || state.fontSizes;
+        state.lang = entry.lang || 'es';
+        state.photoShape = entry.photoShape || 'circle';
+
+        loadMargins();
+        loadThemeAndFonts();
+        loadPhotoShape();
+        langSelect.value = state.lang;
+        templateSelect.value = state.template;
+
+        applyTemplate(state.template, true);
+
+        if (forEditing) {
+          state.loadedEntryId = id;
+          btnUpdateHistory.style.display = 'block';
+          btnUpdateHistory.textContent = '🔄 Actualizar "' + entry.name + '"';
+        } else {
+          state.loadedEntryId = null;
+          btnUpdateHistory.style.display = 'none';
+        }
+        clearDirty();
+        if (!keepModalOpen) {
+          historyModal.classList.remove('active');
+          previewPanel.classList.remove('active');
+          previewContent.innerHTML = '<div class="preview-empty">Selecciona un CV para vista previa.</div>';
+        }
+        renderHistory();
+      }
+
+      function deleteCVFromHistory(id) {
+        if (!confirm('¿Eliminar este CV del historial?')) return;
+        state.history = state.history.filter(item => item.id !== id);
+        if (state.loadedEntryId === id) {
+          state.loadedEntryId = null;
+          btnUpdateHistory.style.display = 'none';
+        }
+        persistState();
+        renderHistory();
+        const previewId = previewPanel.dataset.previewId;
+        if (previewId === id) {
+          previewPanel.classList.remove('active');
+          previewContent.innerHTML = '<div class="preview-empty">Selecciona un CV para vista previa.</div>';
+          delete previewPanel.dataset.previewId;
+        }
+      }
+
+      function renameCVInHistory(id) {
+        const entry = state.history.find(item => item.id === id);
+        if (!entry) return;
+        const newName = prompt('Nuevo nombre para este CV:', entry.name);
+        if (newName === null) return;
+        const trimmed = newName.trim();
+        if (trimmed === '') { alert('El nombre no puede estar vacío.'); return; }
+        entry.name = trimmed;
+        persistState();
+        renderHistory();
+        if (state.loadedEntryId === id) {
+          btnUpdateHistory.textContent = '🔄 Actualizar "' + trimmed + '"';
+        }
+        if (previewPanel.classList.contains('active') && previewPanel.dataset.previewId === id) {
+          showPreview(id);
+        }
+      }
+
+      function showPreview(id) {
+        const entry = state.history.find(item => item.id === id);
+        if (!entry) return;
+        previewPanel.dataset.previewId = id;
+        previewPanel.classList.add('active');
+
+        const data = entry.userData;
+        const lang = entry.lang || 'es';
+        const t = getTranslations(lang);
+        const photoSrc = data.photo || DEFAULT_PHOTO_SVG;
+
+        let html = `
+          <div class="preview-header">
+            <div class="preview-photo">
+              <img src="${photoSrc}" alt="Foto" />
+            </div>
+            <div>
+              <div class="preview-name">${data.nombre || t.nombre}</div>
+              <div class="preview-title">${data.cargo || t.cargo}</div>
+            </div>
+          </div>
+        `;
+
+        const sections = [
+          { key: 'h_perfil', textKey: 'perfil' },
+          { key: 'h_experiencia', textKey: 'experiencia' },
+          { key: 'h_educacion', textKey: 'educacion' },
+          { key: 'h_contacto', textKey: 'contacto' },
+          { key: 'h_idiomas', textKey: 'idiomas' },
+          { key: 'h_habilidades', textKey: 'habilidades' },
+          { key: 'h_ref_laboral', textKey: 'ref_laboral' },
+          { key: 'h_ref_personal', textKey: 'ref_personal' }
+        ];
+
+        sections.forEach(sec => {
+          const heading = data[sec.key] || t[sec.key] || '';
+          const text = data[sec.textKey] || t[sec.textKey] || '';
+          if (heading || text) {
+            html += `
+              <div class="preview-section">
+                <div class="preview-section-heading">${heading}</div>
+                <div class="preview-section-text">${text}</div>
+              </div>
+            `;
+          }
+        });
+
+        // Botón para generar PDF desde la vista previa
+        html += `<button class="btn-action btn-print" onclick="CVBuilder.printPreview('${id}')" style="margin-top:10px;">🖨️ Generar PDF</button>`;
+
+        previewContent.innerHTML = html;
+      }
+
+      function printPreview(id) {
+        const entry = state.history.find(item => item.id === id);
+        if (!entry) return;
+
+        // Construir el HTML del CV a partir de los datos guardados
+        const win = window.open('', '_blank');
+        if (!win) {
+          alert('Por favor permite ventanas emergentes para imprimir.');
+          return;
+        }
+
+        // Generar el contenido del CV
+        const data = entry.userData;
+        const lang = entry.lang || 'es';
+        const t = getTranslations(lang);
+        const photoSrc = data.photo || DEFAULT_PHOTO_SVG;
+
+        let bodyHTML = `
+          <div style="font-family: ${entry.colors?.font || "'Inter', sans-serif"}; color: ${entry.colors?.textGlobal || '#1a1a1a'}; background: ${entry.colors?.bgCanvas || '#ffffff'}; padding: 20px; max-width: 215.9mm; margin: 0 auto;">
+            <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 12px;">
+              <div style="width: 90px; height: 90px; border-radius: ${entry.photoShape === 'circle' ? '50%' : '8px'}; overflow: hidden; border: 2px solid #d1d5db; flex-shrink: 0;">
+                <img src="${photoSrc}" style="width:100%; height:100%; object-fit:cover;" />
+              </div>
+              <div>
+                <div style="font-size: 18pt; font-weight: 800; color: ${entry.colors?.primary || '#374151'};">${data.nombre || t.nombre}</div>
+                <div style="font-size: 10pt; font-weight: 600; color: ${entry.colors?.accent || '#6b7280'};">${data.cargo || t.cargo}</div>
+              </div>
+            </div>
+        `;
+
+        const sections = [
+          { key: 'h_perfil', textKey: 'perfil' },
+          { key: 'h_experiencia', textKey: 'experiencia' },
+          { key: 'h_educacion', textKey: 'educacion' },
+          { key: 'h_contacto', textKey: 'contacto' },
+          { key: 'h_idiomas', textKey: 'idiomas' },
+          { key: 'h_habilidades', textKey: 'habilidades' },
+          { key: 'h_ref_laboral', textKey: 'ref_laboral' },
+          { key: 'h_ref_personal', textKey: 'ref_personal' }
+        ];
+
+        sections.forEach(sec => {
+          const heading = data[sec.key] || t[sec.key] || '';
+          const text = data[sec.textKey] || t[sec.textKey] || '';
+          if (heading || text) {
+            bodyHTML += `
+              <div style="margin-top: 12px;">
+                <div style="font-size: 10pt; font-weight: 700; text-transform: uppercase; border-bottom: 2px solid #1a1a1a; padding-bottom: 2px; margin-bottom: 4px; color: #1a1a1a;">${heading}</div>
+                <div style="font-size: 8.5pt; line-height: 1.4; color: ${entry.colors?.textGlobal || '#1a1a1a'}; white-space: pre-wrap;">${text}</div>
+              </div>
+            `;
+          }
+        });
+
+        bodyHTML += `</div>`;
+
+        const html = `
+          <!DOCTYPE html>
+          <html>
+            <head><meta charset="UTF-8"><title>${entry.name}</title>
+            <style>
+              * { margin: 0; padding: 0; box-sizing: border-box; }
+              body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+              @page { size: letter portrait; margin: 0.5in; }
+            </style>
+            </head>
+            <body>${bodyHTML}</body>
+          </html>
+        `;
+
+        win.document.write(html);
+        win.document.close();
+        win.focus();
+        win.print();
+      }
+
+      function renderHistory() {
+        if (state.history.length === 0) {
+          historyList.innerHTML = '<div class="history-empty">No hay CVs guardados aún. Genera uno con "Print / PDF" o "Guardar en Historial".</div>';
+          return;
+        }
+
+        let html = '';
+        state.history.forEach(item => {
+          const isLoaded = (state.loadedEntryId === item.id);
+          html += `
+            <div class="history-card ${isLoaded ? 'active' : ''}">
+              <div class="history-card-info">
+                <div>
+                  <span class="history-card-name">${item.name}</span>
+                  ${isLoaded ? '<span class="history-card-badge">Editando</span>' : ''}
+                </div>
+                <span class="history-card-date">📅 ${item.date}</span>
+              </div>
+              <div class="history-card-actions">
+                <button class="btn-h-preview" onclick="CVBuilder.showPreview('${item.id}')" title="Vista previa">👁️ Vista</button>
+                <button class="btn-h-edit" onclick="CVBuilder.loadCVFromHistory('${item.id}', false, true)" title="Cargar para editar">✏️ Editar</button>
+                <button class="btn-h-load" onclick="CVBuilder.loadCVFromHistory('${item.id}', false, false)" title="Cargar sin editar">📂 Cargar</button>
+                <button class="btn-h-rename" onclick="CVBuilder.renameCVInHistory('${item.id}')">✏️ Renombrar</button>
+                <button class="btn-h-delete" onclick="CVBuilder.deleteCVFromHistory('${item.id}')">Eliminar</button>
+                <button class="btn-h-pdf" onclick="CVBuilder.printPreview('${item.id}')">🖨️ PDF</button>
+              </div>
+            </div>
+          `;
+        });
+        historyList.innerHTML = html;
+      }
+
+      // ===================================================================
+      // 17. MANIPULADORES DE ITEMS (con marca de dirty)
+      // ===================================================================
+      let activeItem = null;
+      let offsetX = 0,
+        offsetY = 0;
+      let isResizing = false;
+      let currentResizeHandle = null;
+      let startX, startY, startWidth, startHeight, startLeft, startTop;
+
+      function initDrag(e) {
+        if (e.target.getAttribute('contenteditable') === 'true' || e.target.closest('.item-tools') || e.target.tagName ===
+          'INPUT' || e.target.classList.contains('resize-handle')) return;
+
+        activeItem = e.currentTarget;
+        activeItem.classList.add('dragging');
+        const rect = activeItem.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', stopDrag);
+      }
+
+      function drag(e) {
+        if (!activeItem || isResizing) return;
+        const canvasRect = canvas.getBoundingClientRect();
+        let x = e.clientX - canvasRect.left - offsetX;
+        let y = e.clientY - canvasRect.top - offsetY;
+
+        x = Math.max(0, Math.min(x, canvasRect.width - activeItem.offsetWidth));
+        y = Math.max(0, Math.min(y, canvasRect.height - activeItem.offsetHeight));
+
+        activeItem.style.left = x + 'px';
+        activeItem.style.top = y + 'px';
+      }
+
+      function stopDrag() {
+        if (activeItem) {
+          activeItem.classList.remove('dragging');
+          activeItem = null;
+          markDirty();
+        }
+        document.removeEventListener('mousemove', drag);
+        document.removeEventListener('mouseup', stopDrag);
+      }
+
+      function initResize(e, handle, item) {
+        e.stopPropagation();
+        isResizing = true;
+        currentResizeHandle = handle;
+        activeItem = item;
+
+        startX = e.clientX;
+        startY = e.clientY;
+        startWidth = parseInt(document.defaultView.getComputedStyle(activeItem).width, 10);
+        startHeight = parseInt(document.defaultView.getComputedStyle(activeItem).height, 10);
+        startLeft = activeItem.offsetLeft;
+        startTop = activeItem.offsetTop;
+
+        document.addEventListener('mousemove', doResize);
+        document.addEventListener('mouseup', stopResize);
+      }
+
+      function doResize(e) {
+        if (!isResizing || !activeItem) return;
+
+        if (currentResizeHandle.includes('e')) {
+          activeItem.style.width = Math.max(30, startWidth + e.clientX - startX) + 'px';
+        }
+        if (currentResizeHandle.includes('s')) {
+          activeItem.style.height = Math.max(30, startHeight + e.clientY - startY) + 'px';
+        }
+        if (currentResizeHandle.includes('w')) {
+          const width = startWidth - (e.clientX - startX);
+          if (width > 30) {
+            activeItem.style.width = width + 'px';
+            activeItem.style.left = (startLeft + (e.clientX - startX)) + 'px';
+          }
+        }
+        if (currentResizeHandle.includes('n')) {
+          const height = startHeight - (e.clientY - startY);
+          if (height > 30) {
+            activeItem.style.height = height + 'px';
+            activeItem.style.top = (startTop + (e.clientY - startY)) + 'px';
+          }
+        }
+      }
+
+      function stopResize() {
+        isResizing = false;
+        activeItem = null;
+        markDirty();
+        document.removeEventListener('mousemove', doResize);
+        document.removeEventListener('mouseup', stopResize);
+      }
+
+      function changeItemTextColor(btn, targetClass) {
+        const item = btn.closest('.cv-item');
+        const target = item.querySelector('.' + targetClass);
+        if (target) target.style.color = btn.value;
+        markDirty();
+      }
+
+      function changeItemBgColor(btn) {
+        const item = btn.closest('.cv-item');
+        item.style.backgroundColor = btn.value;
+        markDirty();
+      }
+
+      function changeItemAlign(btn, align) {
+        const item = btn.closest('.cv-item');
+        const container = item.querySelector('.cv-header-container');
+        if (!container) {
+          item.style.textAlign = align;
+          markDirty();
+          return;
+        }
+        container.classList.remove('align-left', 'align-right', 'align-top');
+        if (align === 'left') container.classList.add('align-left');
+        else if (align === 'right') container.classList.add('align-right');
+        else if (align === 'top') container.classList.add('align-top');
+        markDirty();
+      }
+
+      function resetItemChanges(btn) {
+        const item = btn.closest('.cv-item');
+        item.style.backgroundColor = 'transparent';
+        item.style.height = 'auto';
+        item.style.textAlign = 'left';
+
+        const container = item.querySelector('.cv-header-container');
+        if (container) {
+          container.classList.remove('align-left', 'align-right', 'align-top');
+          container.classList.add('align-left');
+        }
+
+        const mainTitle = item.querySelector('.cv-title-main');
+        if (mainTitle) mainTitle.style.color = 'var(--cv-primary)';
+
+        const subtitle = item.querySelector('.cv-subtitle');
+        if (subtitle) subtitle.style.color = 'var(--cv-accent)';
+
+        const heading = item.querySelector('.cv-section-heading');
+        if (heading) heading.style.color = 'var(--cv-primary)';
+
+        const text = item.querySelector('.cv-text');
+        if (text) text.style.color = 'var(--cv-text)';
+
+        autoFitCanvasContent();
+        markDirty();
+      }
+
+      function removeItem(btn) {
+        const item = btn.closest('.cv-item');
+        if (item) {
+          item.remove();
+          autoFitCanvasContent();
+          markDirty();
+        }
+      }
+
+      // ===================================================================
+      // 18. IMPRESIÓN / PDF
+      // ===================================================================
+      function generateAndSavePDF() {
+        saveCurrentCanvasToUserData();
+        const titleEl = document.querySelector('.cv-title-main');
+        let baseName = titleEl ? titleEl.innerText.trim() : 'Curriculum';
+        baseName = baseName.replace(/[^a-zA-Z0-9_\-\s]/g, '').trim() || 'Curriculum';
+        const pdfName = generateCVName(baseName);
+        const entry = saveCVToHistory();
+        document.title = entry ? entry.name : pdfName;
+        window.print();
+        setTimeout(() => { document.title = 'TECH AVANCE NR - CV'; }, 500);
+        clearDirty();
+      }
+
+      function saveToHistoryOnly() {
+        saveCurrentCanvasToUserData();
+        const entry = saveCVToHistory();
+        if (entry) {
+          alert('✅ CV guardado en el historial como: "' + entry.name + '"');
+        }
+        renderHistory();
+        clearDirty();
+      }
+
+      // ===================================================================
+      // 19. RESTAURAR TODO
+      // ===================================================================
+      function resetAllChanges() {
+        if (confirm('Are you sure you want to reset everything to its original state?')) {
+          localStorage.removeItem('cv_state');
+          location.reload();
+        }
+      }
+
+      // ===================================================================
+      // 20. RELOJ Y FECHA
+      // ===================================================================
+      function updateCRMDateTime() {
+        const now = new Date();
+        document.getElementById('crm-date').innerText = now.toLocaleDateString('es-ES');
+        document.getElementById('crm-clock').innerText = now.toLocaleTimeString('es-ES');
+      }
+      setInterval(updateCRMDateTime, 1000);
+      updateCRMDateTime();
+
+      // ===================================================================
+      // 21. EXPOSICIÓN PÚBLICA
+      // ===================================================================
+      window.CVBuilder = {
+        state,
+        applyTemplate,
+        renderColumnControls,
+        applyColumnsToCanvas,
+        autoFitCanvasContent,
+        addBlock,
+        addListItem,
+        saveDataAndFit,
+        saveCurrentCanvasToUserData,
+        generateAndSavePDF,
+        saveToHistoryOnly,
+        resetAllChanges,
+        initDrag,
+        initResize,
+        changeItemTextColor,
+        changeItemBgColor,
+        changeItemAlign,
+        resetItemChanges,
+        removeItem,
+        updateTheme,
+        loadThemeAndFonts,
+        saveMargins,
+        loadMargins,
+        changePhotoShape,
+        uploadPhoto,
+        uploadPhotoFromURL,
+        getMargins,
+        updateMarginCSS,
+        updateFontSizes,
+        changeLanguage,
+        saveCVToHistory,
+        updateHistoryEntry,
+        loadCVFromHistory,
+        deleteCVFromHistory,
+        renameCVInHistory,
+        showPreview,
+        printPreview,
+        renderHistory,
+        generateCVName,
+        markDirty,
+        clearDirty
+      };
+
+      // ===================================================================
+      // 22. INICIALIZACIÓN
+      // ===================================================================
+      function init() {
+        loadMargins();
+        loadThemeAndFonts();
+        loadPhotoShape();
+
+        langSelect.value = state.lang;
+
+        renderColumnControls();
+        applyColumnsToCanvas();
+
+        templateSelect.value = state.template;
+        applyTemplate(state.template, true);
+
+        renderHistory();
+
+        // Eventos
+        templateSelect.addEventListener('change', function() {
+          state.loadedEntryId = null;
+          btnUpdateHistory.style.display = 'none';
+          applyTemplate(this.value);
+        });
+
+        langSelect.addEventListener('change', function() {
+          changeLanguage(this.value);
+          markDirty();
+        });
+
+        btnAddCol.addEventListener('click', function() {
+          if (state.columns.length >= 3) return;
+          state.columns.push(20);
+          renderColumnControls();
+          applyColumnsToCanvas();
+          persistState();
+          markDirty();
+        });
+
+        photoShapeSelect.addEventListener('change', function() {
+          changePhotoShape(this.value);
+          markDirty();
+        });
+
+        [marginTop, marginBottom, marginLeft, marginRight].forEach(input => {
+          input.addEventListener('change', function() {
+            CVBuilder.saveMargins();
+            markDirty();
+          });
+          input.addEventListener('input', function() { CVBuilder.updateMarginCSS(); });
+        });
+
+        [fontTitle, fontSubtitle, fontHeading, fontText].forEach(input => {
+          input.addEventListener('change', function() {
+            CVBuilder.updateFontSizes();
+            setTimeout(autoFitCanvasContent, 50);
+            markDirty();
+          });
+          input.addEventListener('input', function() { CVBuilder.updateFontSizes(); });
+        });
+
+        [colorBgHeader, colorBgCanvas, colorBgSidebar, colorPrimary, colorAccent, colorTextGlobal, fontSelect].forEach(
+          el => {
+            el.addEventListener('change', function() {
+              CVBuilder.updateTheme();
+              if (this === fontSelect) setTimeout(autoFitCanvasContent, 50);
+              markDirty();
+            });
+            el.addEventListener('input', function() {
+              if (this !== fontSelect) CVBuilder.updateTheme();
+            });
+          }
+        );
+
+        photoInput.addEventListener('change', function(e) {
+          const file = e.target.files[0];
+          if (file) CVBuilder.uploadPhoto(file);
+        });
+
+        btnLoadPhotoURL.addEventListener('click', function() {
+          const url = photoUrlInput.value.trim();
+          if (url) CVBuilder.uploadPhotoFromURL(url);
+          else alert('Por favor ingresa una URL de imagen.');
+        });
+
+        photoUrlInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') btnLoadPhotoURL.click();
+        });
+
+        document.querySelectorAll('[data-block]').forEach(btn => {
+          btn.addEventListener('click', function() {
+            CVBuilder.addBlock(this.dataset.block);
+            markDirty();
+          });
+        });
+
+        btnAutoFit.addEventListener('click', function() {
+          autoFitCanvasContent();
+          markDirty();
+        });
+
+        btnPrint.addEventListener('click', function() { generateAndSavePDF(); });
+
+        btnSaveHistory.addEventListener('click', function() { saveToHistoryOnly(); });
+
+        btnUpdateHistory.addEventListener('click', function() {
+          if (state.loadedEntryId) {
+            updateHistoryEntry(state.loadedEntryId);
+          } else {
+            alert('No hay un CV cargado para actualizar.');
+          }
+        });
+
+        btnOpenHistory.addEventListener('click', function() {
+          renderHistory();
+          historyModal.classList.add('active');
+          previewPanel.classList.remove('active');
+          previewContent.innerHTML = '<div class="preview-empty">Selecciona un CV para vista previa.</div>';
+          delete previewPanel.dataset.previewId;
+        });
+
+        modalClose.addEventListener('click', function() {
+          historyModal.classList.remove('active');
+          previewPanel.classList.remove('active');
+          previewContent.innerHTML = '<div class="preview-empty">Selecciona un CV para vista previa.</div>';
+          delete previewPanel.dataset.previewId;
+        });
+
+        previewCloseBtn.addEventListener('click', function() {
+          previewPanel.classList.remove('active');
+          previewContent.innerHTML = '<div class="preview-empty">Selecciona un CV para vista previa.</div>';
+          delete previewPanel.dataset.previewId;
+        });
+
+        historyModal.addEventListener('click', function(e) {
+          if (e.target === historyModal) {
+            historyModal.classList.remove('active');
+            previewPanel.classList.remove('active');
+            previewContent.innerHTML = '<div class="preview-empty">Selecciona un CV para vista previa.</div>';
+            delete previewPanel.dataset.previewId;
+          }
+        });
+
+        btnReset.addEventListener('click', function() { resetAllChanges(); });
+
+        document.addEventListener('input', function(e) {
+          if (e.target.closest('[contenteditable="true"]')) {
+            markDirty();
+          }
+        });
+
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(autoFitCanvasContent, 200);
+        });
+
+        setTimeout(autoFitCanvasContent, 300);
+        updateDirtyIndicator();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+  </script>
+
+</body>
+</html>
